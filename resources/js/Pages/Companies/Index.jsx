@@ -52,17 +52,23 @@ export default function Index({ companies }) {
     }
   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     if (e) e.preventDefault();
     if (!form.name) return alert("Company Name is required!");
+
     Inertia.post('/companies', form, {
-      preserveScroll: true,
-      onSuccess: () => {
-        setForm({ name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', gstin: '', pan: '', financial_year_from: '', books_beginning_from: '' });
-        setIsFormOpen(false);
-      },
+        preserveScroll: true,
+        onSuccess: () => {
+            // 1. Form Reset karein
+            setForm({ name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', gstin: '', pan: '',  currency: 'INR', financial_year_from: '', books_beginning_from: '' });
+            // 2. Modal Close karein
+            setIsFormOpen(false); 
+        },
+        onError: (errors) => {
+            console.log(errors); // Agar koi validation error hai toh check karein
+        }
     });
-  };
+};
 
   useShortcuts({
     'alt+c': toggleCreate,

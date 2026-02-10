@@ -20,6 +20,7 @@ class CompanyRequest extends FormRequest
             'address' => 'nullable|string',
             'gstin' => 'nullable|string|max:15',
               'pan' => 'nullable|string|size:10',
+               'currency' => 'required|string|in:INR,USD,EUR',
         'financial_year_from' => 'required|date',
         'books_beginning_from' => 'required|date',
         ];
