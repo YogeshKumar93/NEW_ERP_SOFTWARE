@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Inertia\Inertia;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,12 +18,8 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-   public function boot()
-{
-    Inertia::share([
-        'toast' => function () {
-            return session('toast');
-        },
-    ]);
-}
+    public function boot(): void
+    {
+        Vite::prefetch(concurrency: 3);
+    }
 }
