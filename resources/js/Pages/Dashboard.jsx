@@ -1,23 +1,17 @@
-import { Link } from "@inertiajs/react";
+import React from "react";
+import AppLayout from "../../Layouts/AppLayout";
 
-export default function Dashboard() {
-    return (
-        <div style={{ padding: 40 }}>
-            <h1>Dashboard</h1>
+const Dashboard = () => {
+  return (
+    <AppLayout>
+      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <div className="grid grid-cols-3 gap-6">
+        <div className="bg-white p-4 shadow rounded">Cash Balance: ₹50,000</div>
+        <div className="bg-white p-4 shadow rounded">Bank Balance: ₹2,00,000</div>
+        <div className="bg-white p-4 shadow rounded">Today Sales: ₹75,000</div>
+      </div>
+    </AppLayout>
+  );
+};
 
-            <Link
-                href="/users"
-                style={{
-                    display: "inline-block",
-                    padding: "10px 20px",
-                    background: "#2563eb",
-                    color: "#fff",
-                    borderRadius: 6,
-                    marginTop: 20,
-                }}
-            >
-                Manage Users
-            </Link>
-        </div>
-    );
-}
+export default Dashboard;

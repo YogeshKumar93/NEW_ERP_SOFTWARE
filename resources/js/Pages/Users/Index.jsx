@@ -1,29 +1,50 @@
-import React from "react";
-import { Head } from "@inertiajs/react";
-import PaginatedTable from "@/Components/Common/PaginatedTable";
+import React, { useEffect, useState } from "react";
+import AppLayout from "../../Layouts/AppLayout";
+import axios from "axios";
 
-export default function Index() {
-    const columns = [
-        { key: "name", label: "Name" },
-        { key: "email", label: "Email" },
-        {
-            key: "created_at",
-            label: "Joined",
-            render: (row) => new Date(row.created_at).toLocaleDateString(),
-        },
-    ];
+const Index = () => {
+  const [users, setUsers] = useState([]);
 
-    return (
-        <div className="p-8">
-            <Head title="Users" />
-            <h1 className="text-2xl font-bold mb-4">Users Management</h1>
+  useEffect(() => {
+    // Dummy users fetch (without DB)
+    const fetchUsers = async () => {
+      try {
+        // Frontend test ke liye dummy data
+        setUsers([
+          { id: 1, name: "John Doe", email: "john@example.com" },
+          { id: 2, name: "Jane Doe", email: "jane@example.com" },
+        ]);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-            <PaginatedTable
-                endpoint="/users" // Laravel route
-                columns={columns}
-                showActions={true} // Edit/Delete buttons
-                editable={true} // Modal Add/Edit
-            />
-        </div>
-    );
-}
+    fetchUsers();
+  }, []);
+
+  return (
+    <AppLayout>
+      <h1 className="text-2xl font-bold mb-4">Users</h1>
+      <table className="w-full bg-white shadow rounded">
+        <thead>
+          <tr>
+            <th className="p-2 border">ID</th>
+            <th className="p-2 border">Name</th>
+            <th className="p-2 border">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.id}>
+              <td className="p-2 border">{user.id}</td>
+              <td className="p-2 border">{user.name}</td>
+              <td className="p-2 border">{user.email}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </AppLayout>
+  );
+};
+
+export default Index;

@@ -8,35 +8,44 @@ use Inertia\Inertia;
 use App\Http\Controllers\CompanyController;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+     return Inertia::render('Users/Index');
+    // return Inertia::render('Welcome', [
+    //     'canLogin' => Route::has('login'),
+    //     'canRegister' => Route::has('register'),
+    //     'laravelVersion' => Application::VERSION,
+    //     'phpVersion' => PHP_VERSION,
+    // ]);
 });
+
+Route::prefix('companies')->group(function() {
+    Route::get('/', [CompanyController::class, 'index'])->name('companies.index');
+    Route::post('/', [CompanyController::class, 'store'])->name('companies.store');
+    Route::put('/{company}', [CompanyController::class, 'update'])->name('companies.update');
+    Route::delete('/{company}', [CompanyController::class, 'destroy'])->name('companies.destroy');
+});
+
 
 // ✅ TEST ROUTE (no auth, no headache)
 Route::get('/test-helper', [UserController::class, 'test']);
 
-Route::middleware(['auth', 'verified'])->group(function () {
+// Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+//     Route::get('/dashboard', function () {
+//         return Inertia::render('Dashboard');
+//     })->name('dashboard');
 
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::post('/users', [UserController::class, 'store'])->name('users.store');
-    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+//     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//     Route::post('/users', [UserController::class, 'store'])->name('users.store');
+//     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+//     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
-Route::get('/companies-test', [CompanyController::class, 'index']);
-Route::post('/companies-test', [CompanyController::class, 'store']);
-Route::put('/companies-test/{id}', [CompanyController::class, 'update']);
-Route::delete('/companies-test/{id}', [CompanyController::class, 'destroy']);
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+// Route::get('/companies-test', [CompanyController::class, 'index']);
+// Route::post('/companies-test', [CompanyController::class, 'store']);
+// Route::put('/companies-test/{id}', [CompanyController::class, 'update']);
+// Route::delete('/companies-test/{id}', [CompanyController::class, 'destroy']);
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// });
 
 require __DIR__.'/auth.php';

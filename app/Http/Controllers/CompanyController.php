@@ -1,67 +1,39 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Company;
+use App\Http\Requests\CompanyRequest;
+use App\Services\CompanyService;
 use Inertia\Inertia;
 
 class CompanyController extends Controller
 {
-    public function index(Request $request)
-    {
-        // $companies = Company::paginate(10);
-  $companies = Company::when($request->search, fn($q) => $q
-                ->where('company_name', 'like', "%{$request->search}%")
-                ->orWhere('email', 'like', "%{$request->search}%"))
-            ->paginate(5)
-            ->withQueryString();
-        return Inertia::render('CompanyTest/Index', [
-            'rows' => $companies->items(),
-            'links' => $companies->links(),
+    protected $companyService;
+
+    public function __construct(CompanyService $companyService) {
+        $this->companyService = $companyService;
+    }
+
+    public function index() {
+        $companies = $this->companyService->listCompanies();
+        return Inertia::render('Companies/Index', [
+            'companies' => $companies
         ]);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'company_name' => 'required|min:3',
-            'email' => 'required|email|unique:companies,email',
-            'gst' => 'nullable',
-        ]);
-
-        Company::create($request->all());
-
-        return back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Company created successfully',
-        ]);
+    public function store(CompanyRequest $request) {
+        $company = $this->companyService->createCompany($request->validated());
+        return redirect()->back()->with('toast', ['message' => 'Company created!', 'type' => 'success']);
     }
 
-    public function update(Request $request, $id)
-    {
-        $company = Company::findOrFail($id);
-
-        $request->validate([
-            'company_name' => 'required|min:3',
-            'email' => 'required|email|unique:companies,email,' . $id,
-        ]);
-
-        $company->update($request->all());
-
-        return back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Company updated successfully',
-        ]);
+    public function update(CompanyRequest $request, Company $company) {
+        $this->companyService->updateCompany($company, $request->validated());
+        return redirect()->back()->with('toast', ['message' => 'Company updated!', 'type' => 'success']);
     }
 
-    public function destroy($id)
-    {
-        $company = Company::findOrFail($id);
-        $company->delete();
-
-        return back()->with('toast', [
-            'type' => 'success',
-            'message' => 'Company deleted successfully',
-        ]);
+    public function destroy(Company $company) {
+        $this->companyService->deleteCompany($company);
+        return redirect()->back()->with('toast', ['message' => 'Company deleted!', 'type' => 'success']);
     }
 }

@@ -13,11 +13,7 @@ class Company extends Model
     // protected $table = 'companies';
 
     // Mass assignable fields
-    protected $fillable = [
-        'company_name',
-        'email',
-        'gst',
-    ];
+      protected $fillable = ['name', 'email', 'phone', 'address', 'gstin'];
 
     // Agar tumhe timestamps (created_at, updated_at) chahiye toh ye default true hai
     // protected $timestamps = true;
