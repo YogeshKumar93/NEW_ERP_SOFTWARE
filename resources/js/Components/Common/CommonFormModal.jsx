@@ -1,21 +1,26 @@
 import React from 'react';
 
-export default function TallyModalForm({ isOpen, title, children, onSubmit, onCancel, submitRef }) {
+export default function CommonFormModal({ isOpen, title, children, onSubmit, onCancel, submitRef, width }) {
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
-            <div className="w-[550px] bg-[#e1f5fe] border-2 border-[#01579b] shadow-2xl animate-in zoom-in duration-150">
+            {/* Width is now dynamic, defaults to 550px if not provided */}
+            <div className={`${width ? width : 'w-[550px]'} bg-[#e1f5fe] border-2 border-[#01579b] shadow-2xl animate-in zoom-in duration-150`}>
+                
                 {/* Header */}
-                <div className="bg-[#01579b] text-white text-center py-1 font-bold uppercase text-sm tracking-widest">
+                <div className="bg-[#01579b] text-white text-center py-1 font-bold uppercase text-sm tracking-widest shrink-0">
                     {title}
                 </div>
                 
-                <form onSubmit={onSubmit} className="p-6 flex flex-col gap-3 text-sm">
-                    {children}
+                <form onSubmit={onSubmit} className="p-4 flex flex-col gap-3 text-sm">
+                    {/* Content Area */}
+                    <div className="overflow-y-auto max-h-[80vh]">
+                        {children}
+                    </div>
 
                     {/* Tally Style Accept Box */}
-                    <div className="mt-6 self-end bg-[#b3e5fc] border border-[#01579b] p-4 text-center w-44 shadow-lg">
+                    <div className="mt-4 self-end bg-[#b3e5fc] border border-[#01579b] p-4 text-center w-44 shadow-lg shrink-0">
                         <p className="font-bold mb-3 italic text-[#01579b]">Accept?</p>
                         <div className="flex justify-around gap-2">
                             <button 

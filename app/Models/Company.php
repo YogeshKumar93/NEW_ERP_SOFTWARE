@@ -22,6 +22,7 @@ class Company extends Model
     'state',
     'pincode',
     'gstin',
+    'currency',
     'pan',
     'financial_year_from',
     'books_beginning_from',
