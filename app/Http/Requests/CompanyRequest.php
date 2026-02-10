@@ -19,6 +19,9 @@ class CompanyRequest extends FormRequest
             'phone' => 'nullable|string|max:15',
             'address' => 'nullable|string',
             'gstin' => 'nullable|string|max:15',
+              'pan' => 'nullable|string|size:10',
+        'financial_year_from' => 'required|date',
+        'books_beginning_from' => 'required|date',
         ];
     }
 

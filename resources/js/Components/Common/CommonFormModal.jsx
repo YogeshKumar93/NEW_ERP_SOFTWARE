@@ -4,7 +4,7 @@ export default function TallyModalForm({ isOpen, title, children, onSubmit, onCa
     if (!isOpen) return null;
 
     return (
-        <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
             <div className="w-[550px] bg-[#e1f5fe] border-2 border-[#01579b] shadow-2xl animate-in zoom-in duration-150">
                 {/* Header */}
                 <div className="bg-[#01579b] text-white text-center py-1 font-bold uppercase text-sm tracking-widest">
