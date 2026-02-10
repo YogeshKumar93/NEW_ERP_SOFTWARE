@@ -4,15 +4,28 @@ import AppLayout from "@/Layouts/AppLayout";
 import useShortcuts from "@/Hooks/useShortCuts";
 import CommonTable from "@/Components/Common/CommonTable";
 import CommonFormModal from "@/Components/Common/CommonFormModal";
+import { useForm } from "@inertiajs/react";
 
 export default function Index({ companies }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [form, setForm] = useState({
-    name: '', email: '', phone: '', address: '', city: '', currency: 'INR',
-    state: '', pincode: '', gstin: '', pan: '',
-    financial_year_from: '', books_beginning_from: '',
-  });
+  const [companyList, setCompanyList] = useState(companies);
+
+
+const {  data,  setData,  post,  processing,  reset,  errors} = useForm({
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  city: '',
+  state: '',
+  pincode: '',
+  gstin: '',
+  pan: '',
+  currency: 'INR',
+  financial_year_from: '',
+  books_beginning_from: '',
+});
 
   // Refs
   const nameRef = useRef(null);
@@ -27,6 +40,8 @@ export default function Index({ companies }) {
   const fyRef = useRef(null);
   const booksRef = useRef(null);
   const submitRef = useRef(null);
+
+ 
 
   useEffect(() => {
     const handleGlobalCreate = () => toggleCreate();
@@ -53,22 +68,18 @@ export default function Index({ companies }) {
   };
 
 const handleSubmit = (e) => {
-    if (e) e.preventDefault();
-    if (!form.name) return alert("Company Name is required!");
+  e.preventDefault();
 
-    Inertia.post('/companies', form, {
-        preserveScroll: true,
-        onSuccess: () => {
-            // 1. Form Reset karein
-            setForm({ name: '', email: '', phone: '', address: '', city: '', state: '', pincode: '', gstin: '', pan: '',  currency: 'INR', financial_year_from: '', books_beginning_from: '' });
-            // 2. Modal Close karein
-            setIsFormOpen(false); 
-        },
-        onError: (errors) => {
-            console.log(errors); // Agar koi validation error hai toh check karein
-        }
-    });
+  post(route('companies.store'), {
+    onSuccess: () => {
+      reset();
+      setIsFormOpen(false);
+    }
+  });
 };
+
+
+
 
   useShortcuts({
     'alt+c': toggleCreate,
@@ -91,7 +102,7 @@ const handleSubmit = (e) => {
           <CommonTable
             title="Select Company"
             headers={["Company Name", "Phone", "Email", "GSTIN"]}
-            data={companies}
+            data={companyList}
             columns={["name", "phone", "email", "gstin"]}
             activeIndex={activeIndex}
           />
@@ -112,35 +123,35 @@ const handleSubmit = (e) => {
 
                 <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">Name:</label>
-                  <input ref={nameRef} type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value.toUpperCase() })} onKeyDown={(e) => handleKeyDown(e, emailRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                  <input ref={nameRef} type="text" value={data.name} onChange={e => setData( 'name', e.target.value.toUpperCase() )} onKeyDown={(e) => handleKeyDown(e, emailRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                 </div>
 
                 <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">Email:</label>
-                  <input ref={emailRef} type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} onKeyDown={(e) => handleKeyDown(e, phoneRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                  <input ref={emailRef} type="email" value={data.email} onChange={e => setData('email', e.target.value)} onKeyDown={(e) => handleKeyDown(e, phoneRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                 </div>
 
                 <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">Phone:</label>
-                  <input ref={phoneRef} type="text" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} onKeyDown={(e) => handleKeyDown(e, addressRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                  <input ref={phoneRef} type="text" value={data.phone} onChange={e => setData('phone', e.target.value)} onKeyDown={(e) => handleKeyDown(e, addressRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                 </div>
 
                 <div className="flex items-start">
                   <label className="w-32 font-bold pt-1 text-gray-700 shrink-0">Address:</label>
-                  <textarea ref={addressRef} rows="2" value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} onKeyDown={(e) => handleKeyDown(e, cityRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none resize-none" />
+                  <textarea ref={addressRef} rows="2" value={data.address} onChange={e => setData('address', e.target.value)} onKeyDown={(e) => handleKeyDown(e, cityRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none resize-none" />
                 </div>
 
                 <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">City/State:</label>
                   <div className="flex-1 flex gap-1">
-                    <input ref={cityRef} placeholder="City" type="text" value={form.city} onChange={e => setForm({ ...form, city: e.target.value })} onKeyDown={(e) => handleKeyDown(e, stateRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
-                    <input ref={stateRef} placeholder="State" type="text" value={form.state} onChange={e => setForm({ ...form, state: e.target.value })} onKeyDown={(e) => handleKeyDown(e, pincodeRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                    <input ref={cityRef} placeholder="City" type="text" value={data.city} onChange={e => setData('city', e.target.value)} onKeyDown={(e) => handleKeyDown(e, stateRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                    <input ref={stateRef} placeholder="State" type="text" value={data.state} onChange={e => setData('state', e.target.value)} onKeyDown={(e) => handleKeyDown(e, pincodeRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                   </div>
                 </div>
 
                 <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">Pincode:</label>
-                  <input ref={pincodeRef} type="text" value={form.pincode} onChange={e => setForm({ ...form, pincode: e.target.value })} onKeyDown={(e) => handleKeyDown(e, gstinRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                  <input ref={pincodeRef} type="text" value={data.pincode} onChange={e => setData('pincode', e.target.value)} onKeyDown={(e) => handleKeyDown(e, gstinRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                 </div>
               </div>
 
@@ -151,11 +162,11 @@ const handleSubmit = (e) => {
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <label className="w-32 font-bold text-gray-700 shrink-0">GSTIN:</label>
-                      <input ref={gstinRef} type="text" value={form.gstin} onChange={e => setForm({ ...form, gstin: e.target.value.toUpperCase() })} onKeyDown={(e) => handleKeyDown(e, panRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                      <input ref={gstinRef} type="text" value={data.gstin} onChange={e => setData('gstin', e.target.value.toUpperCase())} onKeyDown={(e) => handleKeyDown(e, panRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                     </div>
                     <div className="flex items-center">
                       <label className="w-32 font-bold text-gray-700 shrink-0">PAN No.:</label>
-                      <input ref={panRef} type="text" value={form.pan} onChange={e => setForm({ ...form, pan: e.target.value.toUpperCase() })} onKeyDown={(e) => handleKeyDown(e, fyRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                      <input ref={panRef} type="text" value={data.pan} onChange={e => setData('pan', e.target.value.toUpperCase())} onKeyDown={(e) => handleKeyDown(e, fyRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                     </div>
                  <div className="flex items-center">
   <label className="w-32 font-bold text-gray-700 shrink-0">
@@ -163,8 +174,8 @@ const handleSubmit = (e) => {
   </label>
 
   <select
-    value={form.currency}
-    onChange={e => setForm({ ...form, currency: e.target.value })}
+    value={data.currency}
+    onChange={e => setData('currency', e.target.value)}
     className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
   >
     <option value="INR">INR - Indian Rupee</option>
@@ -182,11 +193,11 @@ const handleSubmit = (e) => {
                   <div className="space-y-2">
                     <div className="flex items-center">
                       <label className="w-32 font-bold text-gray-700 leading-tight shrink-0">FY Beginning:</label>
-                      <input ref={fyRef} type="date" value={form.financial_year_from} onChange={e => setForm({ ...form, financial_year_from: e.target.value })} onKeyDown={(e) => handleKeyDown(e, booksRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none uppercase" />
+                      <input ref={fyRef} type="date" value={data.financial_year_from} onChange={e => setData('financial_year_from', e.target.value)} onKeyDown={(e) => handleKeyDown(e, booksRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none uppercase" />
                     </div>
                     <div className="flex items-center">
                       <label className="w-32 font-bold text-gray-700 leading-tight shrink-0">Books Beginning:</label>
-                      <input ref={booksRef} type="date" value={form.books_beginning_from} onChange={e => setForm({ ...form, books_beginning_from: e.target.value })} onKeyDown={(e) => handleKeyDown(e, submitRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none uppercase" />
+                      <input ref={booksRef} type="date" value={data.books_beginning_from} onChange={e => setData('books_beginning_from', e.target.value)} onKeyDown={(e) => handleKeyDown(e, submitRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none uppercase" />
                     </div>
                   </div>
                 </div>
