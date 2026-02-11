@@ -3,7 +3,7 @@ import { FaHome, FaUsers, FaFileInvoiceDollar, FaBook, FaShoppingCart } from "re
 
 export default function Sidebar() {
   const menuItems = [
-    { name: 'Dashboard', href: '/dashboard', key: 'D', icon: <FaHome /> },
+    { name: 'Dashboard', route: 'user.dashboard', key: 'D', icon: <FaHome /> },
     { name: 'Companies', href: '/companies', key: 'C', icon: <FaHome /> },
     { name: 'Employees', href: '/employees', key: 'E', icon: <FaUsers /> },
     { name: 'Vouchers', href: '/vouchers', key: 'V', icon: <FaFileInvoiceDollar /> },
@@ -22,7 +22,7 @@ export default function Sidebar() {
         {menuItems.map((item) => (
           <Link
             key={item.name}
-            href={item.href}
+             href={item.route ? route(item.route) : item.href}
             className="group flex items-center justify-between px-4 py-2 hover:bg-indigo-600 hover:text-white border-b border-slate-200 transition-colors"
           >
             <div className="flex items-center gap-2">
