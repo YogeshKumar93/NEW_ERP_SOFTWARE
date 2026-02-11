@@ -16,6 +16,14 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
+
+protected function authenticated(Request $request, $user)
+{
+    // Redirect to company selection page instead of dashboard
+    return redirect()->route('companies.select.index');
+}
+
+
     public function create(): Response
     {
         return Inertia::render('Auth/Login', [

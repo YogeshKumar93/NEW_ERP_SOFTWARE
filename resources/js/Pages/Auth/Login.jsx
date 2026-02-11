@@ -16,9 +16,11 @@ export default function Login({ status, canResetPassword }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('login'), {
-            onFinish: () => reset('password'),
-        });
+     post(route('login'), {
+    onSuccess: () => window.location.href = route('companies.select.index'),
+    onFinish: () => reset('password'),
+});
+
     };
 
     return (

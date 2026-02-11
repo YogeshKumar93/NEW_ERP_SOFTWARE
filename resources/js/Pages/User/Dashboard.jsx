@@ -1,5 +1,7 @@
 import React from 'react';
 import AppLayout from "@/Layouts/AppLayout";
+import { Inertia } from '@inertiajs/inertia';
+
 
 // Reusable Card Component
 const DashboardCard = ({ title, children, date = "For 1-Apr-25" }) => (
@@ -54,7 +56,14 @@ export default function Dashboard() {
         </div>
         
         <div className="grid grid-cols-12 gap-4">
-          
+     <button
+  onClick={() => Inertia.post(route('logout'))} // route helper is available via Ziggy
+  className="px-4 py-2 bg-red-500 text-white rounded"
+>
+  Logout
+</button>
+
+
           {/* Column 1 */}
           <div className="col-span-12 lg:col-span-4 space-y-4">
             <DashboardCard title="Sales Trend">
