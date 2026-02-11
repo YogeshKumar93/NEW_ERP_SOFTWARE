@@ -5,12 +5,13 @@ import useShortcuts from "@/Hooks/useShortCuts";
 import CommonTable from "@/Components/Common/CommonTable";
 import CommonFormModal from "@/Components/Common/CommonFormModal";
 import { useForm } from "@inertiajs/react";
+import SelectStates from "@/Components/Common/SelectStates";
 
-export default function Index({ companies }) {
+export default function Index({ companies = [], states = [] }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [companyList, setCompanyList] = useState(companies);
-
+  const [companyList, setCompanyList] = useState(companies ?? []);
+const tableRef = useRef(null);
 
 const {  data,  setData,  post,  processing,  reset,  errors} = useForm({
   name: '',
@@ -42,6 +43,10 @@ const {  data,  setData,  post,  processing,  reset,  errors} = useForm({
   const submitRef = useRef(null);
 
  
+useEffect(() => {
+    setCompanyList(companies);
+    setActiveIndex(0); // Nayi company aane par wapas top par le jao
+  }, [companies]);
 
   useEffect(() => {
     const handleGlobalCreate = () => toggleCreate();
@@ -74,6 +79,11 @@ const handleSubmit = (e) => {
     onSuccess: () => {
       reset();
       setIsFormOpen(false);
+
+      // tableRef.current?.refresh();
+    },
+    onError: (err) => {
+      console.error("Form Submission Error:", err);
     }
   });
 };
@@ -81,11 +91,17 @@ const handleSubmit = (e) => {
 
 
 
-  useShortcuts({
-    'alt+c': toggleCreate,
-    'Escape': handleBack,
-    'ArrowDown': () => !isFormOpen && setActiveIndex(prev => (prev < companies.length - 1 ? prev + 1 : prev)),
+useShortcuts({
+    'alt+c': () => setIsFormOpen(true),
+    'Escape': () => setIsFormOpen(false),
+    'ArrowDown': () => !isFormOpen && setActiveIndex(prev => (prev < companyList.length - 1 ? prev + 1 : prev)),
     'ArrowUp': () => !isFormOpen && setActiveIndex(prev => (prev > 0 ? prev - 1 : prev)),
+    'Enter': () => {
+        if(!isFormOpen && companyList[activeIndex]) {
+            console.log("Selected:", companyList[activeIndex]);
+            // Yahan selection logic daalein
+        }
+    }
   }, isFormOpen);
 
   return (
@@ -100,11 +116,14 @@ const handleSubmit = (e) => {
 
         <div className="flex-1 relative flex p-4 overflow-hidden">
           <CommonTable
+          ref={tableRef}
             title="Select Company"
-            headers={["Company Name", "Phone", "Email", "GSTIN"]}
+            headers={["Company Name", "Phone", "Email", "GSTIN", "State", "Address", "FY From", "Books From"]}
             data={companyList}
-            columns={["name", "phone", "email", "gstin"]}
+            columns={["name", "phone", "email", "gstin", "state", "address", "financial_year_from", "books_beginning_from"]}
             activeIndex={activeIndex}
+            setActiveIndex={setActiveIndex}
+            onRowSelect={(company) => console.log("Selected:", company)}
           />
 
           <CommonFormModal
@@ -141,12 +160,23 @@ const handleSubmit = (e) => {
                   <textarea ref={addressRef} rows="2" value={data.address} onChange={e => setData('address', e.target.value)} onKeyDown={(e) => handleKeyDown(e, cityRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none resize-none" />
                 </div>
 
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">City/State:</label>
                   <div className="flex-1 flex gap-1">
                     <input ref={cityRef} placeholder="City" type="text" value={data.city} onChange={e => setData('city', e.target.value)} onKeyDown={(e) => handleKeyDown(e, stateRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                     <input ref={stateRef} placeholder="State" type="text" value={data.state} onChange={e => setData('state', e.target.value)} onKeyDown={(e) => handleKeyDown(e, pincodeRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                   </div>
+                </div> */}
+                <div className="flex items-center mb-2">
+                    <label className="w-32 font-bold text-gray-700">State:</label>
+                    <SelectStates 
+                        states={states}
+                        value={data.state}
+                        inputRef={stateRef}
+                        onChange={e => setData('state', e.target.value)}
+                        onKeyDown={(e) => handleKeyDown(e, pincodeRef)}
+                        error={errors.state}
+                    />
                 </div>
 
                 <div className="flex items-center">

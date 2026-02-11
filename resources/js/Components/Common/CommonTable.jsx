@@ -1,54 +1,79 @@
-// TallyCommonTable.jsx (Industry Ready Version)
-import React, { useState, useEffect } from 'react';
+import React, { useImperativeHandle, forwardRef, useCallback } from 'react';
 
-export default function CommonTable({ title, headers, data, columns, onRowSelect }) {
-    const [activeIndex, setActiveIndex] = useState(0);
+const CommonTable = forwardRef(({ 
+    title = "Table", 
+    headers = [], 
+    data = [], 
+    columns = [], 
+    onRowSelect,
+    activeIndex, // Parent se aayega
+    setActiveIndex, // Parent ka state update karne ke liye
+    onRefresh 
+}, ref) => {
 
-    useEffect(() => {
-        const handleKeys = (e) => {
-            if (e.key === "ArrowDown") {
-                setActiveIndex(prev => (prev < data.length - 1 ? prev + 1 : prev));
-            } else if (e.key === "ArrowUp") {
-                setActiveIndex(prev => (prev > 0 ? prev - 1 : prev));
-            } else if (e.key === "Enter") {
-                onRowSelect(data[activeIndex]);
-            }
-        };
-        window.addEventListener("keydown", handleKeys);
-        return () => window.removeEventListener("keydown", handleKeys);
-    }, [data, activeIndex]);
+    // 1. Internal Refresh Logic (Parent calls this via ref)
+    const refreshTable = useCallback(() => {
+        if (setActiveIndex) setActiveIndex(0);
+        if (onRefresh) onRefresh();
+    }, [onRefresh, setActiveIndex]);
+
+    // 2. Expose function to Parent
+    useImperativeHandle(ref, () => ({
+        refresh: refreshTable,
+        currentRow: data[activeIndex]
+    }));
 
     return (
-        <div className="flex flex-col h-full border-2 border-[#004a4d] bg-white">
-            <div className="bg-[#004a4d] text-white px-3 py-1 text-xs flex justify-between font-bold uppercase tracking-wider">
-                <span>{title}</span>
-                <span>Rows: {data.length}</span>
+        <div className="flex flex-col h-full border-2 border-[#004a4d] bg-white shadow-lg font-mono">
+            {/* Header Section */}
+            <div className="bg-[#004a4d] text-white px-3 py-1.5 text-xs flex justify-between items-center font-bold">
+                <span className="tracking-widest uppercase">{title}</span>
+                <div className="flex gap-4 items-center">
+                    <span className="opacity-80">Total: {data.length}</span>
+                    <button 
+                        onClick={refreshTable}
+                        className="bg-[#006064] hover:bg-[#00838f] px-2 py-0.5 rounded text-[10px] transition-all border border-cyan-400/30"
+                    >
+                        REFRESH (F5)
+                    </button>
+                </div>
             </div>
-            <div className="flex-1 overflow-auto bg-[#f1f5f9]">
-                <table className="w-full text-xs text-left border-collapse">
-                    <thead className="sticky top-0 bg-[#e2e8f0] text-[#004a4d] uppercase">
+
+            {/* Table Section */}
+            <div className="flex-1 overflow-auto bg-[#f8fafc]">
+                <table className="w-full text-[11px] text-left border-collapse table-fixed">
+                    <thead className="sticky top-0 bg-[#cbd5e1] text-[#004a4d] z-10 shadow-sm uppercase">
                         <tr>
-                            <th className="p-2 border-b border-r w-10">#</th>
+                            <th className="p-2 border-b border-r w-12 text-center">#</th>
                             {headers.map((h, i) => (
-                                <th key={i} className="p-2 border-b border-r">{h}</th>
+                                <th key={i} className="p-2 border-b border-r truncate font-bold">{h}</th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
                         {data.map((item, idx) => (
                             <tr 
-                                key={item.id}
+                                key={item.id || idx}
                                 className={`
-                                    cursor-pointer border-b transition-colors
-                                    ${idx === activeIndex ? 'bg-yellow-200' : 'bg-white hover:bg-slate-50'}
-                                    ${idx === activeIndex ? 'text-black' : 'text-slate-700'}
+                                    cursor-pointer border-b select-none
+                                    ${idx === activeIndex ? 'bg-[#ffeb3b] text-black font-bold shadow-inner' : 'hover:bg-blue-50 text-slate-700'}
                                 `}
                                 onClick={() => setActiveIndex(idx)}
+                                onDoubleClick={() => onRowSelect?.(item)}
                             >
-                                <td className="p-2 border-r text-center">{idx + 1}</td>
+                                <td className="p-2 border-r text-center bg-slate-100/50">{idx + 1}</td>
                                 {columns.map((col, i) => (
-                                    <td key={i} className="p-2 border-r uppercase font-medium">{item[col]}</td>
+                                    <td key={i} className="p-2 border-r truncate uppercase">
+                                        {item[col] || '-'}
+                                    </td>
                                 ))}
+                            </tr>
+                        ))}
+                        {/* Tally Style Empty Rows for UI consistency */}
+                        {data.length < 15 && [...Array(15 - data.length)].map((_, i) => (
+                            <tr key={`empty-${i}`} className="h-8 border-b opacity-20">
+                                <td className="border-r"></td>
+                                {columns.map((_, ci) => <td key={ci} className="border-r"></td>)}
                             </tr>
                         ))}
                     </tbody>
@@ -56,4 +81,6 @@ export default function CommonTable({ title, headers, data, columns, onRowSelect
             </div>
         </div>
     );
-}
+});
+
+export default CommonTable;

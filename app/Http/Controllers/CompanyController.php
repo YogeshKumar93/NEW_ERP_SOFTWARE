@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Http\Requests\CompanyRequest;
+use App\Models\State;
 use App\Services\CompanyService;
 use Inertia\Inertia;
 
@@ -17,8 +18,10 @@ class CompanyController extends Controller
 
     public function index() {
         $companies = $this->companyService->listCompanies();
+
         return Inertia::render('Companies/Index', [
-            'companies' => $companies
+            'companies' => $companies,
+            'states' => State::all()
         ]);
     }
 
