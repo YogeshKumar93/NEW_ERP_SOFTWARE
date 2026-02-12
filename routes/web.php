@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Master\GroupController;
+use App\Http\Controllers\Master\LedgerController;
 
 
 use Illuminate\Foundation\Application;
@@ -70,6 +71,8 @@ Route::middleware(['auth'])->group(function () {
         // Future ERP modules go here
         // Route::resource('ledgers', LedgerController::class);
         Route::resource('groups', GroupController::class); // This will create all CRUD routes for groups with 'groups' prefix
+        Route::resource('ledgers', LedgerController::class);
+
 
     });
 });

@@ -6,6 +6,7 @@ export default function Sidebar() {
     { name: 'Dashboard', route: 'user.dashboard', key: 'D', icon: <FaHome /> },
     { name: 'Companies', href: '/companies', key: 'C', icon: <FaHome /> },
     { name: 'Groups', href: '/groups', key: 'C', icon: <FaHome /> },
+     { name: 'Ledgers', href: '/ledgers', key: 'J', icon: <FaBook /> },
     { name: 'Employees', href: '/employees', key: 'E', icon: <FaUsers /> },
     { name: 'Vouchers', href: '/vouchers', key: 'V', icon: <FaFileInvoiceDollar /> },
     { name: 'Journal Voucher', href: '/vouchers/journal/create', key: 'J', icon: <FaBook /> },

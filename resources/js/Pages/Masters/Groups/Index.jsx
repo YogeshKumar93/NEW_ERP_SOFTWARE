@@ -121,7 +121,11 @@ export default function Index({ groups = [] }) {
                     <select 
                         ref={natureRef}
                         value={data.nature} 
-                        onChange={e => setData('nature', e.target.value)} 
+                        onChange={e => {
+    setData('nature', e.target.value);
+    setData('parent_id', ''); // reset parent
+}}
+
                         onKeyDown={(e) => handleKeyDown(e, submitRef)}
                         className="flex-1 border border-gray-400 px-2 py-1 focus:bg-[#fff9c4] outline-none"
                     >
@@ -133,6 +137,30 @@ export default function Index({ groups = [] }) {
                     </select>
                 </div>
                 {errors.nature && <div className="text-red-600 ml-32">{errors.nature}</div>}
+
+
+                {/* Parent Field */}
+<div className="flex items-center">
+    <label className="w-32 font-bold text-gray-700 shrink-0">Parent:</label>
+    <select
+        value={data.parent_id}
+        onChange={e => setData('parent_id', e.target.value)}
+        disabled={!data.nature}
+        className="flex-1 border border-gray-400 px-2 py-1 focus:bg-[#fff9c4] outline-none disabled:bg-gray-200"
+    >
+        <option value="">Primary (No Parent)</option>
+
+        {groupList
+            .filter(g => g.nature === data.nature)
+            .map(group => (
+                <option key={group.id} value={group.id}>
+                    {group.name}
+                </option>
+        ))}
+    </select>
+</div>
+
+
 
                 <div className="mt-6 pt-4 border-t border-blue-200 text-right italic text-gray-500">
                     Press Enter to Save
