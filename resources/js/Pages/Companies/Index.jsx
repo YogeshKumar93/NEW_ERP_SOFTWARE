@@ -160,13 +160,6 @@ useShortcuts({
                   <textarea ref={addressRef} rows="2" value={data.address} onChange={e => setData('address', e.target.value)} onKeyDown={(e) => handleKeyDown(e, cityRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none resize-none" />
                 </div>
 
-                {/* <div className="flex items-center">
-                  <label className="w-32 font-bold text-gray-700 shrink-0">City/State:</label>
-                  <div className="flex-1 flex gap-1">
-                    <input ref={cityRef} placeholder="City" type="text" value={data.city} onChange={e => setData('city', e.target.value)} onKeyDown={(e) => handleKeyDown(e, stateRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
-                    <input ref={stateRef} placeholder="State" type="text" value={data.state} onChange={e => setData('state', e.target.value)} onKeyDown={(e) => handleKeyDown(e, pincodeRef)} className="w-1/2 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
-                  </div>
-                </div> */}
                 <div className="flex items-center mb-2">
                     <label className="w-32 font-bold text-gray-700">State:</label>
                     <SelectStates 

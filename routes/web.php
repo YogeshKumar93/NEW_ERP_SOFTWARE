@@ -57,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
     // ======================
     // ERP Modules (require selected company)
     // ======================
-    Route::middleware('company.selected')->group(function () {
+    Route::middleware(['auth', 'company.selected'])->group(function () {
 
         // Company CRUD routes
         Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
