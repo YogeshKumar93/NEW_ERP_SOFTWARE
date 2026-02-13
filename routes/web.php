@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\Master\GroupController;
 use App\Http\Controllers\Master\LedgerController;
+use App\Http\Controllers\Master\UnitController;
 
 
 use Illuminate\Foundation\Application;
@@ -72,6 +73,8 @@ Route::middleware(['auth'])->group(function () {
         // Route::resource('ledgers', LedgerController::class);
         Route::resource('groups', GroupController::class); // This will create all CRUD routes for groups with 'groups' prefix
         Route::resource('ledgers', LedgerController::class);
+        Route::resource('units', UnitController::class)->only(['index', 'store', 'destroy']);
+      
 
 
     });

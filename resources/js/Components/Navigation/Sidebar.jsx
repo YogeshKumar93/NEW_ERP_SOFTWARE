@@ -1,29 +1,79 @@
 import { useState } from 'react';
 import { Link } from '@inertiajs/react';
-import { FaHome, FaUsers, FaFileInvoiceDollar, FaBook, FaShoppingCart, FaChevronDown, FaChevronRight, FaLayerGroup } from "react-icons/fa";
+import { 
+  FaHome, FaUsers, FaFileInvoiceDollar, FaBook, 
+  FaShoppingCart, FaChevronDown, FaChevronRight, 
+  FaLayerGroup, FaBoxes, FaClipboardList, FaChartLine 
+} from "react-icons/fa";
 
 export default function Sidebar() {
-  // 1. State to control the dropdown
-  const [majorsOpen, setMajorsOpen] = useState(false);
+  // 1. Updated state to handle multiple dropdowns independently
+  const [openMenus, setOpenMenus] = useState({
+    masters: false,
+    vouchers: false,
+    reports: false,
+  });
+
+  const toggleMenu = (menu) => {
+    setOpenMenus(prev => ({ ...prev, [menu]: !prev[menu] }));
+  };
 
   const menuItems = [
     { name: 'Dashboard', route: 'user.dashboard', key: 'D', icon: <FaHome /> },
     { name: 'Companies', href: '/companies', key: 'C', icon: <FaHome /> },
-    // 2. Grouped "Majors" item
+    
+    // 2. Masters Dropdown
     { 
-      name: 'Majors', 
+      name: 'Masters', 
       key: 'M', 
       icon: <FaLayerGroup />, 
       isDropdown: true,
+      isOpen: openMenus.masters,
+      toggle: () => toggleMenu('masters'),
       subItems: [
-        { name: 'Groups', href: '/groups', key: 'G', icon: <FaHome /> },
+        { name: 'Groups', href: '/groups', key: 'G', icon: <FaLayerGroup /> },
         { name: 'Ledgers', href: '/ledgers', key: 'L', icon: <FaBook /> },
+        { name: 'Units', href: '/units', key: 'U', icon: <FaLayerGroup /> },
+        { name: 'Stock Groups', href: '/stock-groups', key: 'S', icon: <FaBoxes /> },
+        { name: 'Stock Items', href: '/stock-items', key: 'I', icon: <FaBoxes /> },
       ]
     },
+
+    // 3. Vouchers Dropdown
+    { 
+      name: 'Vouchers', 
+      key: 'V', 
+      icon: <FaFileInvoiceDollar />, 
+      isDropdown: true,
+      isOpen: openMenus.vouchers,
+      toggle: () => toggleMenu('vouchers'),
+      subItems: [
+        { name: 'Journal', href: '/vouchers/journal', key: 'J', icon: <FaBook /> },
+        { name: 'Payment', href: '/vouchers/payment', key: 'Y', icon: <FaFileInvoiceDollar /> },
+        { name: 'Receipt', href: '/vouchers/receipt', key: 'R', icon: <FaFileInvoiceDollar /> },
+        { name: 'Sales', href: '/vouchers/sales', key: 'A', icon: <FaShoppingCart /> },
+        { name: 'Purchase', href: '/vouchers/purchase', key: 'P', icon: <FaShoppingCart /> },
+      ]
+    },
+
+    // 4. Reports Dropdown
+    { 
+      name: 'Reports', 
+      key: 'R', 
+      icon: <FaClipboardList />, 
+      isDropdown: true,
+      isOpen: openMenus.reports,
+      toggle: () => toggleMenu('reports'),
+      subItems: [
+        { name: 'Trial Balance', href: '/reports/trial-balance', key: 'T', icon: <FaChartLine /> },
+        { name: 'Ledger Report', href: '/reports/ledger', key: 'E', icon: <FaBook /> },
+        { name: 'P&L', href: '/reports/pl', key: 'N', icon: <FaChartLine /> },
+        { name: 'Balance Sheet', href: '/reports/balance-sheet', key: 'B', icon: <FaChartLine /> },
+        { name: 'Stock Summary', href: '/reports/stock-summary', key: 'K', icon: <FaBoxes /> },
+      ]
+    },
+
     { name: 'Employees', href: '/employees', key: 'E', icon: <FaUsers /> },
-    { name: 'Vouchers', href: '/vouchers', key: 'V', icon: <FaFileInvoiceDollar /> },
-    { name: 'Journal Voucher', href: '/vouchers/journal/create', key: 'J', icon: <FaBook /> },
-    { name: 'Purchase', href: '/purchase', key: 'P', icon: <FaShoppingCart /> },
   ];
 
   return (
@@ -34,12 +84,11 @@ export default function Sidebar() {
 
       <nav className="flex-1 overflow-y-auto pt-2">
         {menuItems.map((item) => {
-          // 3. Logic for the Dropdown Item
           if (item.isDropdown) {
             return (
               <div key={item.name} className="flex flex-col">
                 <button
-                  onClick={() => setMajorsOpen(!majorsOpen)}
+                  onClick={item.toggle}
                   className="group flex items-center justify-between px-4 py-2 hover:bg-indigo-600 hover:text-white border-b border-slate-200 transition-colors w-full"
                 >
                   <div className="flex items-center gap-2">
@@ -48,12 +97,11 @@ export default function Sidebar() {
                   </div>
                   <div className="flex items-center gap-2 text-indigo-600 group-hover:text-yellow-300">
                     <span className="font-bold underline">{item.key}</span>
-                    {majorsOpen ? <FaChevronDown size={10} /> : <FaChevronRight size={10} />}
+                    {item.isOpen ? <FaChevronDown size={10} /> : <FaChevronRight size={10} />}
                   </div>
                 </button>
 
-                {/* Dropdown Content */}
-                {majorsOpen && (
+                {item.isOpen && (
                   <div className="bg-slate-50">
                     {item.subItems.map((sub) => (
                       <Link
@@ -76,7 +124,6 @@ export default function Sidebar() {
             );
           }
 
-          // 4. Original Logic for normal items
           return (
             <Link
               key={item.name}
