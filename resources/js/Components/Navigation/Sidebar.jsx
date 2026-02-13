@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from '@inertiajs/react';
 import { 
   FaHome, FaUsers, FaFileInvoiceDollar, FaBook, 
@@ -13,6 +13,27 @@ export default function Sidebar() {
     vouchers: false,
     reports: false,
   });
+
+  // Sidebar logic snippet
+useEffect(() => {
+    const handleGlobalKeys = (e) => {
+        const key = e.key.toUpperCase();
+        // Skip if typing in an input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        // Tally style direct key navigation
+        menuItems.forEach(item => {
+            if (item.key === key) {
+                if (item.isDropdown) item.toggle();
+                else if (item.href) router.visit(item.href);
+            }
+            // Sub-items navigation logic can be added here
+        });
+    };
+
+    window.addEventListener('keydown', handleGlobalKeys);
+    return () => window.removeEventListener('keydown', handleGlobalKeys);
+}, [openMenus]);
 
   const toggleMenu = (menu) => {
     setOpenMenus(prev => ({ ...prev, [menu]: !prev[menu] }));

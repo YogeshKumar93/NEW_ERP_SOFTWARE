@@ -8,14 +8,14 @@ export default function Footer({ activeActions = {} }) {
 
     // Default Tally-style functions
     const handleF2 = () => setActiveDrawer('period');
-    const handleF3 = () => setActiveDrawer('company');
+    const handleF3 = () => setActiveDrawer('companies');
     const handleF4 = () => setActiveDrawer('masters');
 
     // Shortcut Hook inside Footer
     useShortcuts({
         'F2': activeActions['F2']?.fn || handleF2,
         'F3': activeActions['F3']?.fn || handleF3,
-        'F3': activeActions['F3']?.fn || handleF3,
+        'F4': activeActions['F4']?.fn || handleF3,
         'Escape': () => setActiveDrawer(null),
     }, !!activeDrawer);
 
