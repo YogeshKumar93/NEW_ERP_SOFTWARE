@@ -9,9 +9,10 @@ export default function TallyDrawer({ isOpen, type, onClose }) {
 
     const drawerConfig = {
         masters: [
-            { label: "Accounts Info", path: '/groups', key: 'A' },
-            { label: "Inventory Info", path: '/stock-items', key: 'I' },
-            { label: "Payroll Info", path: '/employees', key: 'P' },
+            { label: "Groups", path: '/groups', key: 'G' },
+            { label: "Ledgers", path: '/ledgers', key: 'L' },
+            { label: "Units", path: '/units', key: 'U' },
+            { label: "Stock Items", path: '/stock-items', key: 'S' },
         ],
 
           companies: [

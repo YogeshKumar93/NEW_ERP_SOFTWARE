@@ -15,7 +15,7 @@ export default function Footer({ activeActions = {} }) {
     useShortcuts({
         'F2': activeActions['F2']?.fn || handleF2,
         'F3': activeActions['F3']?.fn || handleF3,
-        'F4': activeActions['F4']?.fn || handleF3,
+        'F4': activeActions['F4']?.fn || handleF4,
         'Escape': () => setActiveDrawer(null),
     }, !!activeDrawer);
 
