@@ -55,7 +55,7 @@ useEffect(() => {
         { name: 'Groups', href: '/groups', key: 'G', icon: <FaLayerGroup /> },
         { name: 'Ledgers', href: '/ledgers', key: 'L', icon: <FaBook /> },
         { name: 'Units', href: '/units', key: 'U', icon: <FaLayerGroup /> },
-        { name: 'Stock Groups', href: '/stock-groups', key: 'S', icon: <FaBoxes /> },
+        { name: 'Stock Categories', href: '/stock-categories', key: 'C', icon: <FaBoxes /> },
         { name: 'Stock Items', href: '/stock-items', key: 'I', icon: <FaBoxes /> },
       ]
     },

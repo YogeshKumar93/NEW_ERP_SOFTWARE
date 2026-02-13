@@ -6,6 +6,8 @@ use App\Http\Controllers\Master\GroupController;
 use App\Http\Controllers\Master\LedgerController;
 use App\Http\Controllers\Master\UnitController;
 use App\Http\Controllers\Master\StockItemController;
+use App\Http\Controllers\Master\StockCategoryController;
+
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -74,7 +76,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('groups', GroupController::class); // This will create all CRUD routes for groups with 'groups' prefix
         Route::resource('ledgers', LedgerController::class);
         Route::resource('units', UnitController::class)->only(['index', 'store', 'destroy']);
-       Route::resource('stock-items', StockItemController::class)->only(['index', 'store', 'update', 'destroy']);;
+       Route::resource('stock-items', StockItemController::class)->only(['index', 'store', 'update', 'destroy']);
+        Route::resource('stock-categories', StockCategoryController::class)->only(['index', 'store', 'update', 'destroy']);
 
 
     });
