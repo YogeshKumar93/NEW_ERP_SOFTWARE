@@ -67,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth', 'company.selected'])->group(function () {
 
         // Company CRUD routes
+        Route::get('/gateway', function () {
+    return Inertia::render('Gateway/Gateway');
+})->name('gateway');
+
         Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
         Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');
         Route::resource('companies', CompanyController::class)->except(['index', 'store']); // avoid duplicate routes
@@ -74,7 +78,7 @@ Route::middleware(['auth'])->group(function () {
         // Future ERP modules go here
         // Route::resource('ledgers', LedgerController::class);
         Route::resource('groups', GroupController::class); // This will create all CRUD routes for groups with 'groups' prefix
-        Route::resource('ledgers', LedgerController::class);
+        
         Route::resource('units', UnitController::class)->only(['index', 'store', 'destroy']);
        Route::resource('stock-items', StockItemController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('stock-categories', StockCategoryController::class)->only(['index', 'store', 'update', 'destroy']);
