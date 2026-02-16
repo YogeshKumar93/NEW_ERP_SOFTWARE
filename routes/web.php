@@ -71,6 +71,10 @@ Route::middleware(['auth'])->group(function () {
     return Inertia::render('Gateway/Gateway');
 })->name('gateway');
 
+  Route::get('/gstDetails', function () {
+    return Inertia::render('GST_Details/GSTDetailsForm');
+})->name('gstDetails');
+
         Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
         Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');
         Route::resource('companies', CompanyController::class)->except(['index', 'store']); // avoid duplicate routes

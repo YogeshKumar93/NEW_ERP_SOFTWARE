@@ -43,6 +43,7 @@ useEffect(() => {
     { name: 'Gateway', route: 'gateway', key: 'G', icon: <FaHome /> },
     { name: 'Dashboard', route: 'user.dashboard', key: 'D', icon: <FaHome /> },
     { name: 'Companies', href: '/companies', key: 'C', icon: <FaHome /> },
+    { name: 'GST Details', href: '/gstDetails', key: 'T', icon: <FaHome /> },
     
     // 2. Masters Dropdown
     { 
