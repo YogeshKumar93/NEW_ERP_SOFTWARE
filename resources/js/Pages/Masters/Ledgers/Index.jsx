@@ -4,6 +4,7 @@ import useShortcuts from "@/Hooks/useShortCuts";
 import CommonTable from "@/Components/Common/CommonTable";
 import CommonFormModal from "@/Components/Common/CommonFormModal";
 import { useForm } from "@inertiajs/react";
+import { printRowReceipt } from "@/Utils/PrintHelper";
 
 export default function Index({ ledgers = [], groups = [] }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -47,6 +48,22 @@ export default function Index({ ledgers = [], groups = [] }) {
     }
   };
 
+  // Particular Ledger Print karne ka function
+  const handlePrint = (ledger) => {
+    if (!ledger) return;
+    // Yahan hum map kar rahe hain ki receipt mein kya dikhana hai
+    const receiptData = {
+   "Ledger Name": ledger.name,
+        "Under Group": ledger.group_name || ledger.group_id,
+        "Opening Balance": `${ledger.opening_balance} ${ledger.opening_type}`,
+        "GST Number": ledger.gst_number || "N/A",
+        "Address": ledger.address || "N/A",
+        "Status": "Active"
+    };
+
+    printRowReceipt("LEDGER DETAILS", receiptData);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     post(route('ledgers.store'), {
@@ -59,6 +76,8 @@ export default function Index({ ledgers = [], groups = [] }) {
 
   useShortcuts({
     'alt+c': () => toggleCreate(),
+  'p': () => !isFormOpen && handlePrint(ledgerList[activeIndex]),
+    'P': () => !isFormOpen && handlePrint(ledgerList[activeIndex]), // Capital P ke liye
     'Escape': () => setIsFormOpen(false),
     'ArrowDown': () => !isFormOpen && setActiveIndex(prev => (prev < ledgerList.length - 1 ? prev + 1 : prev)),
     'ArrowUp': () => !isFormOpen && setActiveIndex(prev => (prev > 0 ? prev - 1 : prev)),
@@ -80,12 +99,28 @@ export default function Index({ ledgers = [], groups = [] }) {
           <CommonTable
             ref={tableRef}
             title="List of Ledgers"
-            headers={["Ledger Name", "Group", "Opening Bal", "Type", "GSTIN"]}
+            headers={["Ledger Name", "Group", "Opening Bal", "Type", "GSTIN", "Actions"]}
             data={ledgerList}
-            columns={["name", "group_id", "opening_balance", "opening_type", "gst_number"]}
+            columns={["name", "group_id", "opening_balance", "opening_type", "gst_number","actions" ]}
             activeIndex={activeIndex}
             setActiveIndex={setActiveIndex}
             onRowSelect={(ledger) => console.log("Selected:", ledger)}
+          renderCell={(ledger, column) => {
+        if (column === "actions") {
+            return (
+                <button 
+                    onClick={(e) => { 
+                        e.stopPropagation(); 
+                        handlePrint(ledger); 
+                    }}
+                    className="bg-[#004a4d] text-white px-2 font-bold border border-black hover:bg-yellow-400"
+                >
+                    P
+                </button>
+            );
+        }
+        return ledger[column];
+    }}
           />
 
           {/* Creation Form Modal */}

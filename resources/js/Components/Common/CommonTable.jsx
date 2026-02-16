@@ -8,7 +8,8 @@ const CommonTable = forwardRef(({
     onRowSelect,
     activeIndex, // Parent se aayega
     setActiveIndex, // Parent ka state update karne ke liye
-    onRefresh 
+    onRefresh,
+    renderCell
 }, ref) => {
 
     // 1. Internal Refresh Logic (Parent calls this via ref)
@@ -62,11 +63,15 @@ const CommonTable = forwardRef(({
                                 onDoubleClick={() => onRowSelect?.(item)}
                             >
                                 <td className="p-2 border-r text-center bg-slate-100/50">{idx + 1}</td>
-                                {columns.map((col, i) => (
-                                    <td key={i} className="p-2 border-r truncate uppercase">
-                                        {item[col] || '-'}
-                                    </td>
-                                ))}
+                              {columns.map((col, i) => (
+    <td key={i} className="p-2 border-r truncate uppercase">
+        {/* Agar renderCell ek function hai (sirf Ledger page pe), toh usey chalao. 
+            Nahi toh purana default logic (item[col]) chalao. */}
+        {typeof renderCell === 'function' 
+            ? renderCell(item, col) 
+            : (item[col] || '-')}
+    </td>
+))}
                             </tr>
                         ))}
                         {/* Tally Style Empty Rows for UI consistency */}
