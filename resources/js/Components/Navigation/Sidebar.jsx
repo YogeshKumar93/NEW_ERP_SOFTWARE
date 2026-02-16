@@ -52,11 +52,11 @@ useEffect(() => {
       isOpen: openMenus.masters,
       toggle: () => toggleMenu('masters'),
       subItems: [
-        { name: 'Groups', href: '/groups', key: 'G', icon: <FaLayerGroup /> },
-        { name: 'Ledgers', href: '/ledgers', key: 'L', icon: <FaBook /> },
+        { name: 'Groups', href: '/groups', key: 'G', icon: <FaLayerGroup /> },      
         { name: 'Units', href: '/units', key: 'U', icon: <FaLayerGroup /> },
         { name: 'Stock Categories', href: '/stock-categories', key: 'C', icon: <FaBoxes /> },
         { name: 'Stock Items', href: '/stock-items', key: 'I', icon: <FaBoxes /> },
+          { name: 'Ledgers', href: '/ledgers', key: 'L', icon: <FaBook /> },
       ]
     },
 
