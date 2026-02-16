@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('companies', CompanyController::class)->except(['index', 'store']); // avoid duplicate routes
 
         // Future ERP modules go here
-        // Route::resource('ledgers', LedgerController::class);
+        Route::resource('ledgers', LedgerController::class);
         Route::resource('groups', GroupController::class); // This will create all CRUD routes for groups with 'groups' prefix
         
         Route::resource('units', UnitController::class)->only(['index', 'store', 'destroy']);

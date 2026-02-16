@@ -76,7 +76,7 @@ export default function Gateway() {
   }, [activeIndex, selectedModule]);
 
   return (
-    <AppLayout title="Gateway of Tally">
+    <AppLayout title="Gateway of ERP">
       <div className="bg-[#e2e8f0] min-h-[calc(100vh-64px)] font-mono antialiased text-slate-900 select-none flex flex-col">
         
         {/* --- Top Navigation Bar (Tally Style) --- */}
@@ -128,7 +128,7 @@ export default function Gateway() {
             {/* Right Section: Gateway Menu */}
             <div className="col-span-7 flex flex-col bg-white">
               <div className="bg-[#0081c5] text-white py-1 px-4 text-[12px] font-black italic tracking-widest flex justify-between">
-                <span>Gateway of Tally</span>
+                <span>Gateway of ERP</span>
                 <span className="opacity-50 font-normal">TallyPrime 4.0</span>
               </div>
 
