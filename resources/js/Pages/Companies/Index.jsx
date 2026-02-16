@@ -11,22 +11,23 @@ export default function Index({ companies = [], states = [] }) {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [companyList, setCompanyList] = useState(companies ?? []);
-const tableRef = useRef(null);
+  const tableRef = useRef(null);
 
-const {  data,  setData,  post,  processing,  reset,  errors} = useForm({
-  name: '',
-  email: '',
-  phone: '',
-  address: '',
-  city: '',
-  state: '',
-  pincode: '',
-  gstin: '',
-  pan: '',
-  currency: 'INR',
-  financial_year_from: '',
-  books_beginning_from: '',
-});
+  const { data, setData, post, processing, reset, errors } = useForm({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    gst_registered: 'yes',
+    gstin: '',
+    pan: '',
+    currency: 'INR',
+    financial_year_from: '',
+    books_beginning_from: '',
+  });
 
   // Refs
   const nameRef = useRef(null);
@@ -42,8 +43,8 @@ const {  data,  setData,  post,  processing,  reset,  errors} = useForm({
   const booksRef = useRef(null);
   const submitRef = useRef(null);
 
- 
-useEffect(() => {
+
+  useEffect(() => {
     setCompanyList(companies);
     setActiveIndex(0); // Nayi company aane par wapas top par le jao
   }, [companies]);
@@ -72,35 +73,35 @@ useEffect(() => {
     }
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  post(route('companies.store'), {
-    onSuccess: () => {
-      reset();
-      setIsFormOpen(false);
+    post(route('companies.store'), {
+      onSuccess: () => {
+        reset();
+        setIsFormOpen(false);
 
-      // tableRef.current?.refresh();
-    },
-    onError: (err) => {
-      console.error("Form Submission Error:", err);
-    }
-  });
-};
-
-
+        // tableRef.current?.refresh();
+      },
+      onError: (err) => {
+        console.error("Form Submission Error:", err);
+      }
+    });
+  };
 
 
-useShortcuts({
+
+
+  useShortcuts({
     'alt+c': () => setIsFormOpen(true),
     'Escape': () => setIsFormOpen(false),
     'ArrowDown': () => !isFormOpen && setActiveIndex(prev => (prev < companyList.length - 1 ? prev + 1 : prev)),
     'ArrowUp': () => !isFormOpen && setActiveIndex(prev => (prev > 0 ? prev - 1 : prev)),
     'Enter': () => {
-        if(!isFormOpen && companyList[activeIndex]) {
-            console.log("Selected:", companyList[activeIndex]);
-            // Yahan selection logic daalein
-        }
+      if (!isFormOpen && companyList[activeIndex]) {
+        console.log("Selected:", companyList[activeIndex]);
+        // Yahan selection logic daalein
+      }
     }
   }, isFormOpen);
 
@@ -116,7 +117,7 @@ useShortcuts({
 
         <div className="flex-1 relative flex p-4 overflow-hidden">
           <CommonTable
-          ref={tableRef}
+            ref={tableRef}
             title="Select Company"
             headers={["Company Name", "Phone", "Email", "GSTIN", "State", "Address", "FY From", "Books From"]}
             data={companyList}
@@ -142,7 +143,7 @@ useShortcuts({
 
                 <div className="flex items-center">
                   <label className="w-32 font-bold text-gray-700 shrink-0">Name:</label>
-                  <input ref={nameRef} type="text" value={data.name} onChange={e => setData( 'name', e.target.value.toUpperCase() )} onKeyDown={(e) => handleKeyDown(e, emailRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                  <input ref={nameRef} type="text" value={data.name} onChange={e => setData('name', e.target.value.toUpperCase())} onKeyDown={(e) => handleKeyDown(e, emailRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                 </div>
 
                 <div className="flex items-center">
@@ -161,15 +162,15 @@ useShortcuts({
                 </div>
 
                 <div className="flex items-center mb-2">
-                    <label className="w-32 font-bold text-gray-700">State:</label>
-                    <SelectStates 
-                        states={states}
-                        value={data.state}
-                        inputRef={stateRef}
-                        onChange={e => setData('state', e.target.value)}
-                        onKeyDown={(e) => handleKeyDown(e, pincodeRef)}
-                        error={errors.state}
-                    />
+                  <label className="w-32 font-bold text-gray-700">State:</label>
+                  <SelectStates
+                    states={states}
+                    value={data.state}
+                    inputRef={stateRef}
+                    onChange={e => setData('state', e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(e, pincodeRef)}
+                    error={errors.state}
+                  />
                 </div>
 
                 <div className="flex items-center">
@@ -183,29 +184,67 @@ useShortcuts({
                 <div>
                   <h3 className="font-bold border-b border-blue-300 text-blue-900 pb-0.5 mb-2 uppercase">Statutory Details</h3>
                   <div className="space-y-2">
+                    {/* GST Registered */}
                     <div className="flex items-center">
-                      <label className="w-32 font-bold text-gray-700 shrink-0">GSTIN:</label>
-                      <input ref={gstinRef} type="text" value={data.gstin} onChange={e => setData('gstin', e.target.value.toUpperCase())} onKeyDown={(e) => handleKeyDown(e, panRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
+                      <label className="w-32 font-bold text-gray-700 shrink-0">
+                        GST Registered:
+                      </label>
+
+      <select
+  value={data.gst_registered}
+  onChange={(e) => {
+    const value = e.target.value;
+    setData('gst_registered', value);
+
+    if (value === 'no') {
+      Inertia.visit(route('gstDetails'));
+    }
+  }}
+  className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
+>
+  <option value="yes">Yes</option>
+  <option value="no">No</option>
+</select>
+
+
                     </div>
+
+                    {/* GSTIN field only if registered */}
+                    {data.gst_registered === 'yes' && (
+                      <div className="flex items-center">
+                        <label className="w-32 font-bold text-gray-700 shrink-0">
+                          GSTIN:
+                        </label>
+
+                        <input
+                          ref={gstinRef}
+                          type="text"
+                          value={data.gstin}
+                          onChange={e => setData('gstin', e.target.value.toUpperCase())}
+                          className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
+                        />
+                      </div>
+                    )}
+
                     <div className="flex items-center">
                       <label className="w-32 font-bold text-gray-700 shrink-0">PAN No.:</label>
                       <input ref={panRef} type="text" value={data.pan} onChange={e => setData('pan', e.target.value.toUpperCase())} onKeyDown={(e) => handleKeyDown(e, fyRef)} className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none" />
                     </div>
-                 <div className="flex items-center">
-  <label className="w-32 font-bold text-gray-700 shrink-0">
-    Currency:
-  </label>
+                    <div className="flex items-center">
+                      <label className="w-32 font-bold text-gray-700 shrink-0">
+                        Currency:
+                      </label>
 
-  <select
-    value={data.currency}
-    onChange={e => setData('currency', e.target.value)}
-    className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
-  >
-    <option value="INR">INR - Indian Rupee</option>
-    <option value="USD">USD - US Dollar</option>
-    <option value="EUR">EUR - Euro</option>
-  </select>
-</div>
+                      <select
+                        value={data.currency}
+                        onChange={e => setData('currency', e.target.value)}
+                        className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
+                      >
+                        <option value="INR">INR - Indian Rupee</option>
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                      </select>
+                    </div>
 
 
                   </div>
