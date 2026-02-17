@@ -1,23 +1,27 @@
 import CommonFormModal from '@/Components/Common/CommonFormModal';
 import AppLayout from '@/Layouts/AppLayout';
 import React, { useState } from 'react';
-import { router } from '@inertiajs/react';
+import { router, usePage } from '@inertiajs/react';
 
 
 const GSTDetailsForm = () => {
 
-    const [formData, setFormData] = useState({
-        registrationStatus: 'Active',
-        state: 'Chandigarh',
-        registrationType: 'Regular',
-        assesseeOtherTerritory: 'No',
-        gstin: '',
-        periodicity: 'Monthly',
-        eWayBillApplicable: 'Yes',
-        applicableFrom: '1-Apr-2025',
-        applicableIntrastate: 'Yes',
-        eInvoicingApplicable: 'No'
-    });
+  const { gstDetail } = usePage().props;
+
+
+  const [formData, setFormData] = useState({
+    registrationStatus: gstDetail?.registration_status ?? 'Active',
+    state: gstDetail?.state ?? '',
+    registrationType: gstDetail?.registration_type ?? 'Regular',
+    assesseeOtherTerritory: gstDetail?.assessee_other_territory ?? 'No',
+    gstin: gstDetail?.gstin ?? '',
+    periodicity: gstDetail?.periodicity ?? 'Monthly',
+    eWayBillApplicable: gstDetail?.eway_bill_applicable ? 'Yes' : 'No',
+    applicableFrom: gstDetail?.eway_applicable_from ?? '',
+    applicableIntrastate: 'Yes',
+    eInvoicingApplicable: gstDetail?.einvoicing_applicable ? 'Yes' : 'No'
+});
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,7 +30,7 @@ const GSTDetailsForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+alert("Form Submit Triggered");
     router.post(route('gst.details.store'), formData);
 };
 

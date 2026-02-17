@@ -197,7 +197,7 @@ export default function Index({ companies = [], states = [] }) {
                           setData('gst_registered', value);
 
                           if (value === 'no') {
-                            Inertia.visit(route('gstDetails'));
+                            Inertia.visit(route('gst-details'));
                           }
                         }}
                         className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"

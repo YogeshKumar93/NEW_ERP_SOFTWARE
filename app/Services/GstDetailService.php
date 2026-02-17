@@ -6,10 +6,11 @@ use App\Models\GstDetail;
 
 class GstDetailService
 {
-    public function store($data, $companyId)
-    {
-        return GstDetail::create([
-            'company_id' => $companyId,
+  public function store($data, $companyId)
+{
+    return GstDetail::updateOrCreate(
+        ['company_id' => $companyId],
+        [
             'registration_status' => 'Active',
             'state' => $data['state'],
             'registration_type' => $data['registrationType'],
@@ -17,8 +18,10 @@ class GstDetailService
             'gstin' => $data['gstin'],
             'periodicity' => $data['periodicity'],
             'eway_bill_applicable' => $data['eWayBillApplicable'] === 'Yes',
-            'eway_applicable_from' => $data['applicableFrom'],
+            'eway_applicable_from' => $data['applicableFrom'] ?: null,
             'einvoicing_applicable' => $data['eInvoicingApplicable'] === 'Yes',
-        ]);
-    }
+        ]
+    );
+}
+
 }
