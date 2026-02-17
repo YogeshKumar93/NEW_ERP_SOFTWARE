@@ -190,21 +190,21 @@ export default function Index({ companies = [], states = [] }) {
                         GST Registered:
                       </label>
 
-      <select
-  value={data.gst_registered}
-  onChange={(e) => {
-    const value = e.target.value;
-    setData('gst_registered', value);
+                      <select
+                        value={data.gst_registered}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setData('gst_registered', value);
 
-    if (value === 'no') {
-      Inertia.visit(route('gstDetails'));
-    }
-  }}
-  className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
->
-  <option value="yes">Yes</option>
-  <option value="no">No</option>
-</select>
+                          if (value === 'no') {
+                            Inertia.visit(route('gstDetails'));
+                          }
+                        }}
+                        className="flex-1 border border-gray-400 px-1 py-0.5 focus:bg-[#fff9c4] outline-none"
+                      >
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                      </select>
 
 
                     </div>
