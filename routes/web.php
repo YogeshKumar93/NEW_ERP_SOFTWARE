@@ -7,6 +7,7 @@ use App\Http\Controllers\Master\LedgerController;
 use App\Http\Controllers\Master\UnitController;
 use App\Http\Controllers\Master\StockItemController;
 use App\Http\Controllers\Master\StockCategoryController;
+use App\Http\Controllers\GstDetailController;
 
 
 use Illuminate\Foundation\Application;
@@ -71,9 +72,11 @@ Route::middleware(['auth'])->group(function () {
     return Inertia::render('Gateway/Gateway');
 })->name('gateway');
 
-  Route::get('/gstDetails', function () {
-    return Inertia::render('GST_Details/GSTDetailsForm');
-})->name('gstDetails');
+ Route::get('/gst-details', [GstDetailController::class, 'index'])
+    ->name('gst.details.index');
+
+Route::post('/gst-details', [GstDetailController::class, 'store'])
+    ->name('gst.details.store');
 
         Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
         Route::post('/companies', [CompanyController::class, 'store'])->name('companies.store');

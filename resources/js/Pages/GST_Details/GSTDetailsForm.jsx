@@ -1,6 +1,8 @@
 import CommonFormModal from '@/Components/Common/CommonFormModal';
 import AppLayout from '@/Layouts/AppLayout';
 import React, { useState } from 'react';
+import { router } from '@inertiajs/react';
+
 
 const GSTDetailsForm = () => {
 
@@ -22,11 +24,12 @@ const GSTDetailsForm = () => {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Saving GST Details:", formData);
-        onClose(); // Filhal sirf modal close hoga
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    router.post(route('gst.details.store'), formData);
+};
+
 
     // Tally look classes
     const rowClass = "flex justify-between items-center h-6";
