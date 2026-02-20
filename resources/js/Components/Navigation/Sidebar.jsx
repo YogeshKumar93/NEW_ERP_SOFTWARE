@@ -71,11 +71,15 @@ useEffect(() => {
       isOpen: openMenus.vouchers,
       toggle: () => toggleMenu('vouchers'),
       subItems: [
-        { name: 'Journal', href: '/vouchers/journal', key: 'J', icon: <FaBook /> },
-        { name: 'Payment', href: '/vouchers/payment', key: 'Y', icon: <FaFileInvoiceDollar /> },
-        { name: 'Receipt', href: '/vouchers/receipt', key: 'R', icon: <FaFileInvoiceDollar /> },
-        { name: 'Sales', href: '/vouchers/sales', key: 'A', icon: <FaShoppingCart /> },
-        { name: 'Purchase', href: '/vouchers/purchase', key: 'P', icon: <FaShoppingCart /> },
+        
+          { name: 'Journal Voucher', href: '/journal-voucher', key: 'P', icon: <FaShoppingCart /> },
+           { name: 'Sales Voucher', href: '/vouchers/sales', key: 'A', icon: <FaShoppingCart /> },
+       
+        { name: 'Payment Voucher', href: '/vouchers/payment', key: 'Y', icon: <FaFileInvoiceDollar /> },
+        { name: 'Receipt Voucher', href: '/vouchers/receipt', key: 'R', icon: <FaFileInvoiceDollar /> },
+         { name: 'Journal Voucher', href: '/vouchers/journal', key: 'J', icon: <FaBook /> },
+       
+      
       ]
     },
 

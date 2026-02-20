@@ -8,7 +8,7 @@ use App\Http\Controllers\Master\UnitController;
 use App\Http\Controllers\Master\StockItemController;
 use App\Http\Controllers\Master\StockCategoryController;
 use App\Http\Controllers\GstDetailController;
-
+use App\Http\Controllers\VoucherController;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -90,6 +90,11 @@ Route::post('/gst-details', [GstDetailController::class, 'store'])
        Route::resource('stock-items', StockItemController::class)->only(['index', 'store', 'update', 'destroy']);
         Route::resource('stock-categories', StockCategoryController::class)->only(['index', 'store', 'update', 'destroy']);
 
+        // Show Journal Voucher Form
+Route::get('/journal-voucher', [VoucherController::class, 'create'])->name('journal-voucher.create');
+
+// Store Voucher
+Route::post('/journal-voucher', [VoucherController::class, 'store'])->name('journal-voucher.store');
 
     });
 });
