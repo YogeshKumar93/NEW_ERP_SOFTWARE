@@ -9,7 +9,7 @@ use App\Http\Controllers\Master\StockItemController;
 use App\Http\Controllers\Master\StockCategoryController;
 use App\Http\Controllers\GstDetailController;
 use App\Http\Controllers\VoucherController;
-
+use App\Http\Controllers\SalesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -95,6 +95,9 @@ Route::get('/journal-voucher', [VoucherController::class, 'create'])->name('jour
 
 // Store Voucher
 Route::post('/journal-voucher', [VoucherController::class, 'store'])->name('journal-voucher.store');
+
+Route::get('/sales', [SalesController::class, 'create']);
+Route::post('/sales', [SalesController::class, 'store']);
 
     });
 });
