@@ -96,8 +96,10 @@ Route::get('/journal-voucher', [VoucherController::class, 'create'])->name('jour
 // Store Voucher
 Route::post('/journal-voucher', [VoucherController::class, 'store'])->name('journal-voucher.store');
 
-Route::get('/sales', [SalesController::class, 'create']);
-Route::post('/sales', [SalesController::class, 'store']);
+Route::prefix('sales')->group(function() {
+    Route::get('/', [SalesController::class, 'create'])->name('sales.create'); // form page
+    Route::post('/', [SalesController::class, 'store'])->name('sales.store');  // store action
+});
 
     });
 });
