@@ -10,6 +10,7 @@ class Sale extends Model
 {
     protected $fillable = [
         'company_id',
+        // 'code',
         'customer_id',
         'date',
         'invoice_no',
@@ -22,8 +23,8 @@ class Sale extends Model
         return $this->hasMany(SaleItem::class);
     }
 
-    public function customer()
-    {
-        return $this->belongsTo(Ledger::class, 'customer_id');
-    }
+    // public function customer()
+    // {
+    //     return $this->belongsTo(Ledger::class, 'customer_id');
+    // }
 }

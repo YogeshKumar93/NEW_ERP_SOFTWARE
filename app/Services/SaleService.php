@@ -43,36 +43,36 @@ class SaleService
             ]);
 
             // Ledger Posting
-            $this->createLedgerEntries($sale);
+            // $this->createLedgerEntries($sale);
         });
     }
 
     protected function createLedgerEntries($sale)
-    {
-        $salesLedger = Ledger::where('name', 'Sales Account')->first();
+{
+    $salesLedger = Ledger::firstOrCreate(
+        ['company_id' => $sale->company_id, 
+        // 'code' => 'SALES'
+        ],
+        ['name' => 'Sales Account'],
+        ['type' => 'income']
+    );
 
-        if (!$salesLedger) {
-            throw new \Exception('Sales Account Ledger Not Found');
-        }
+    LedgerEntry::create([
+        'ledger_id' => $sale->customer_id,
+        'date' => $sale->date,
+        'debit' => $sale->total_amount,
+        'credit' => 0,
+        'reference_type' => 'Sale',
+        'reference_id' => $sale->id,
+    ]);
 
-        // Customer Debit
-        LedgerEntry::create([
-            'ledger_id' => $sale->customer_id,
-            'date' => $sale->date,
-            'debit' => $sale->total_amount,
-            'credit' => 0,
-            'reference_type' => 'Sale',
-            'reference_id' => $sale->id,
-        ]);
-
-        // Sales Credit
-        LedgerEntry::create([
-            'ledger_id' => $salesLedger->id,
-            'date' => $sale->date,
-            'debit' => 0,
-            'credit' => $sale->total_amount,
-            'reference_type' => 'Sale',
-            'reference_id' => $sale->id,
-        ]);
-    }
+    LedgerEntry::create([
+        'ledger_id' => $salesLedger->id,
+        'date' => $sale->date,
+        'debit' => 0,
+        'credit' => $sale->total_amount,
+        'reference_type' => 'Sale',
+        'reference_id' => $sale->id,
+    ]);
+}
 }

@@ -11,6 +11,9 @@ export default function Sales({ customers, items }) {
         ],
     });
 
+
+console.log("ajsfklajksd",items);
+
     // Add new row
     const addRow = () => {
         setData("items", [
@@ -46,10 +49,11 @@ export default function Sales({ customers, items }) {
         0
     );
 
-    const submit = (e) => {
-        e.preventDefault();
-        post("/sales");
-    };
+  const submit = (e) => {
+    e.preventDefault();
+    console.log("FORM SUBMIT");
+    post("/sales");
+};
 
     return (
         <AppLayout>
