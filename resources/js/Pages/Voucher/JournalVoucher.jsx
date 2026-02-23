@@ -22,6 +22,10 @@ export default function Index({ vouchers = [], ledgers = [], voucherType }) {
         ],
     });
 
+    useEffect(() => {
+    console.log("Vouchers data:", vouchers);
+}, [vouchers]);
+
     // Entries Management
     const addRow = () => {
         setData('entries', [...data.entries, { ledger_id: "", debit: "", credit: "" }]);
