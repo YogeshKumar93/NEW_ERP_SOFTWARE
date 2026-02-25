@@ -37,23 +37,23 @@ class RegisteredUserController extends Controller
         ]);
 
               // Define default role id
-            $defaultRole = 2;
+            // $defaultRole = 2;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             // 'role_id' => $defaultRole->id,
-            'role_id' => $defaultRole,
+            // 'role_id' => $defaultRole,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        if ($user->role_id == 1) {
-    return redirect()->route('admin.dashboard');
-}
+//         if ($user->role_id == 1) {
+//     return redirect()->route('admin.dashboard');
+// }
 
 return redirect()->route('user.dashboard');
 

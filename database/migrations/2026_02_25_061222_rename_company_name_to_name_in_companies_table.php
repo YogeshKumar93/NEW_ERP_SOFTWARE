@@ -9,11 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+   public function up(): void
     {
-        Schema::create('voucher_types', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('companies', function (Blueprint $table) {
+            $table->renameColumn('company_name', 'name');
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('voucher_types');
+        Schema::table('companies', function (Blueprint $table) {
+            $table->renameColumn('name', 'company_name');
+        });
     }
 };

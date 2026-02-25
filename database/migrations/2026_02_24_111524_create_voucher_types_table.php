@@ -4,15 +4,17 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLedgerEntriesTable extends Migration
+class CreateVoucherTypesTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('ledger_entries', function (Blueprint $table) {
+        Schema::create('voucher_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ class CreateLedgerEntriesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ledger_entries');
+        Schema::dropIfExists('voucher_types');
     }
 };

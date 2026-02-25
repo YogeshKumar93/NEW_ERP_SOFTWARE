@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
+
+            $table->foreignId('company_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+
+            $table->string('name');
+            $table->string('symbol')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('decimal_places')->default(0);
+
             $table->timestamps();
         });
     }
