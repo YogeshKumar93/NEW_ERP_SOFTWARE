@@ -13,7 +13,7 @@ export default function SelectStates({ states, value, onChange, onKeyDown, input
                 <option value="">-- Select State --</option>
                 {states && states.map((state) => (
                     <option key={state.id} value={state.name}>
-                        {state.state_code} - {state.state}
+                        {state.state_code} - {state.name}
                     </option>
                 ))}
             </select>
