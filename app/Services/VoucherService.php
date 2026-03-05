@@ -21,7 +21,8 @@ class VoucherService
             }
 
             $voucher = Voucher::create([
-                'company_id' => session('selected_company'),
+                // 'company_id' => session('selected_company'),
+                'company_id' => 1, // For testing, replace with actual company ID
                 'voucher_type_id' => $data['voucher_type_id'],
                 'voucher_no' => 'JV-' . time(),
                 'date' => $data['date'],

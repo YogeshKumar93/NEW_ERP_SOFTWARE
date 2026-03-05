@@ -19,7 +19,7 @@ return new class extends Migration
         $table->unsignedBigInteger('unit_id')->nullable();
 
         $table->string('name');
-        $table->decimal('opening_qty', 15, 2)->default(0);
+        $table->decimal('opening_stock', 15, 2)->default(0);
         $table->decimal('opening_rate', 15, 2)->default(0);
 
         $table->timestamps();

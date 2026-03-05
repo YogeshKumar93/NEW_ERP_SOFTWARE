@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Sale;
 use App\Models\Ledger;
 use App\Models\StockItem ;
 use App\Http\Requests\SaleRequest;
@@ -13,7 +13,8 @@ class SalesController extends Controller
     public function create()
     {
         return Inertia::render('Sales/Sales', [
-            'customers' => Ledger::where('type', 'customer')->get(),
+             'sales' => Sale::latest()->get(),
+            'customers' => Ledger::all(),
             'items' => StockItem::all()
         ]);
     }

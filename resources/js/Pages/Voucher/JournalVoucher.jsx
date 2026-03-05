@@ -13,7 +13,7 @@ export default function Index({ vouchers = [], ledgers = [], voucherType }) {
 
     // useForm for Journal Entry
     const { data, setData, post, processing, reset, errors } = useForm({
-        voucher_type_id: voucherType?.id || "",
+        voucher_type_id: voucherType?.id ?? 1,
         date: new Date().toISOString().substr(0, 10),
         narration: "",
         entries: [
@@ -57,6 +57,7 @@ export default function Index({ vouchers = [], ledgers = [], voucherType }) {
         }
 
         post(route('journal-voucher.store'), {
+             preserveScroll: true,
             onSuccess: () => {
                 setIsFormOpen(false);
                 reset();
@@ -94,9 +95,9 @@ export default function Index({ vouchers = [], ledgers = [], voucherType }) {
                     <CommonTable
                         ref={tableRef}
                         title="List of Journal Vouchers"
-                        headers={["Date", "Voucher No", "Particulars", "Debit Amt", "Credit Amt"]}
+                        headers={["Date", "Voucher No", "Particulars", "Total Amount"]}
                         data={vouchers}
-                        columns={["date", "voucher_type_id", "ledger_id", "debit", "credit"]}
+                        columns={["date", "voucher_no",  "narration", "total_amount"]}
                         activeIndex={activeIndex}
                         setActiveIndex={setActiveIndex}
                         onRowSelect={(v) => console.log("Viewing Voucher:", v)}

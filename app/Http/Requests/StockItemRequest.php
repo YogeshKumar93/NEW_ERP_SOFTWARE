@@ -22,6 +22,7 @@ class StockItemRequest extends FormRequest
     public function rules(): array
     {
         return [
+            //   'company_id' => auth()->user()->company_id,
                   'name' => 'required|string|max:255',
             'unit_id' => 'required|exists:units,id',
             'hsn_code' => 'nullable|string|max:50',

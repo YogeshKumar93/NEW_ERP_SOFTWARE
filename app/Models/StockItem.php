@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class StockItem extends Model
 {
     protected $fillable = [
-        'company_id',
-        'name',
-        'stock_category_id',
-        'unit_id',
-        'opening_qty',
-        'opening_rate',
+     'company_id',
+    'name',
+    'unit_id',
+    'stock_category_id',
+    'hsn_code',
+    'gst_percent',
+    'opening_stock',   
+    'opening_rate',
     ];
 
     // 🔹 Unit Relation

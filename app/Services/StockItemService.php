@@ -9,6 +9,7 @@ class StockItemService
     public function create($data, $companyId)
     {
         $data['company_id'] = $companyId;
+        
 
         return StockItem::create($data);
     }
