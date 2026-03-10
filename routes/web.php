@@ -116,6 +116,12 @@ Route::prefix('receipts')->group(function(){
     Route::post('/', [ReceiptController::class,'store'])->name('receipts.store');
 });
 
+Route::get('/ledger-reports', [LedgerController::class,'ledgerReports'])
+->name('ledger.reports');
+
+Route::get('/ledger-reports/{id}', [LedgerController::class,'ledgerReportView'])
+->name('ledger.report.view');
+
     });
 });
 

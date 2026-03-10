@@ -8,7 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Ledger; 
 use Illuminate\Http\Request;
 use App\Models\Group;
-
+ 
+use App\Models\Payment;
+use App\Models\Receipt;
+// use Inertia\Inertia;
 
 class LedgerController extends Controller
 {
@@ -87,4 +90,46 @@ class LedgerController extends Controller
     {
         //
     }
+
+    public function ledgerReports()
+{
+    $ledgers = Ledger::select('id','name')->get();
+
+    return Inertia::render('Reports/LedgerReports',[
+        'ledgers' => $ledgers
+    ]);
+}
+
+public function ledgerReportView($id)
+{
+    $ledger = Ledger::findOrFail($id);
+
+    $payments = Payment::where('ledger_id',$id)->get();
+    $receipts = Receipt::where('ledger_id',$id)->get();
+
+    $transactions = [];
+
+    foreach ($payments as $p) {
+        $transactions[] = [
+            'date' => $p->date,
+            'particular' => 'Payment',
+            'debit' => 0,
+            'credit' => $p->amount
+        ];
+    }
+
+    foreach ($receipts as $r) {
+        $transactions[] = [
+            'date' => $r->date,
+            'particular' => 'Receipt',
+            'debit' => $r->amount,
+            'credit' => 0
+        ];
+    }
+
+    return Inertia::render('Reports/LedgerReportView',[
+        'ledger' => $ledger,
+        'transactions' => $transactions
+    ]);
+}
 }

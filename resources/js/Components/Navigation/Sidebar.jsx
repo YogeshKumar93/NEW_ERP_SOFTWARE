@@ -93,7 +93,7 @@ useEffect(() => {
       toggle: () => toggleMenu('reports'),
       subItems: [
         { name: 'Trial Balance', href: '/reports/trial-balance', key: 'T', icon: <FaChartLine /> },
-        { name: 'Ledger Report', href: '/reports/ledger', key: 'E', icon: <FaBook /> },
+        { name: 'Ledger Report', href: '/ledger-reports', key: 'E', icon: <FaBook /> },
         { name: 'P&L', href: '/reports/pl', key: 'N', icon: <FaChartLine /> },
         { name: 'Balance Sheet', href: '/reports/balance-sheet', key: 'B', icon: <FaChartLine /> },
         { name: 'Stock Summary', href: '/reports/stock-summary', key: 'K', icon: <FaBoxes /> },
