@@ -9,6 +9,8 @@ export default function Sales({ sales = [], customers = [], items = [] }) {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
 
+console.log("Sales Component Rendered with sales:", sales);
+
     // Refs for Focus Management
     const dateRef = useRef(null);
     const customerRef = useRef(null);

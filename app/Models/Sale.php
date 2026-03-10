@@ -24,6 +24,11 @@ class Sale extends Model
     }
 
     
+    public function customer()
+{
+    // return $this->belongsTo(Ledger::class, 'customer_id');
+     return $this->belongsTo(\App\Models\Ledger::class, 'customer_id');
+}
 
     // public function customer()
     // {
