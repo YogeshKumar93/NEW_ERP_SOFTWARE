@@ -12,6 +12,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\SalesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PaymentController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -98,7 +99,14 @@ Route::post('/journal-voucher', [VoucherController::class, 'store'])->name('jour
 
 Route::prefix('sales')->group(function() {
     Route::get('/', [SalesController::class, 'create'])->name('sales.create'); // form page
-    Route::post('/', [SalesController::class, 'store'])->name('sales.store');  // store action
+    Route::post('/', [SalesController::class, 'store'])->name('sales.store');  // store action  
+});
+
+Route::prefix('payments')->group(function(){
+
+    Route::get('/', [PaymentController::class,'create'])->name('payments.create');
+    Route::post('/', [PaymentController::class,'store'])->name('payments.store');
+
 });
 
     });
