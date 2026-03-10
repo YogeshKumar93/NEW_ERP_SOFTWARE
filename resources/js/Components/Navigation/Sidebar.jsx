@@ -76,7 +76,7 @@ useEffect(() => {
            { name: 'Sales Voucher', href: '/sales', key: 'A', icon: <FaShoppingCart /> },
        
         { name: 'Payment Voucher', href: '/payments', key: 'Y', icon: <FaFileInvoiceDollar /> },
-        { name: 'Receipt Voucher', href: '/vouchers/receipt', key: 'R', icon: <FaFileInvoiceDollar /> },
+        { name: 'Receipt Voucher', href: '/receipts', key: 'R', icon: <FaFileInvoiceDollar /> },
         //  { name: 'Journal Voucher', href: '/vouchers/journal', key: 'J', icon: <FaBook /> },
        
       

@@ -12,6 +12,7 @@ use App\Http\Controllers\VoucherController;
 use App\Http\Controllers\SalesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\PaymentController;
 use Inertia\Inertia;
 
@@ -107,6 +108,12 @@ Route::prefix('payments')->group(function(){
     Route::get('/', [PaymentController::class,'create'])->name('payments.create');
     Route::post('/', [PaymentController::class,'store'])->name('payments.store');
 
+});
+
+Route::prefix('receipts')->group(function(){
+
+ Route::get('/', [ReceiptController::class,'create'])->name('receipts.create');
+    Route::post('/', [ReceiptController::class,'store'])->name('receipts.store');
 });
 
     });
