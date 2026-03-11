@@ -16,6 +16,7 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\EmployeeAdvanceController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -131,6 +132,12 @@ Route::get('/attendance',[AttendanceController::class,'index'])
 
 Route::post('/attendance',[AttendanceController::class,'store'])
     ->name('attendance.store');
+
+    Route::get('/advance',[EmployeeAdvanceController::class,'index']);
+
+Route::post('/advance',[EmployeeAdvanceController::class,'store']);
+
+Route::get('/salary/{id}',[EmployeeAdvanceController::class,'salary']);
 
     });
 });

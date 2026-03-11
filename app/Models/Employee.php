@@ -14,4 +14,12 @@ class Employee extends Model
         'salary',
         'joining_date'
     ];
+
+    public function advances()
+{
+return $this->hasMany(EmployeeAdvance::class);
 }
+
+}
+
+
