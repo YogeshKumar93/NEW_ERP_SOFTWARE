@@ -2,6 +2,8 @@ import AppLayout from "@/Layouts/AppLayout";
 
 export default function LedgerReportView({ ledger, transactions }) {
 
+    console.log(transactions);
+
     return (
         <AppLayout title="Ledger Statement">
 

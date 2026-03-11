@@ -100,7 +100,25 @@ useEffect(() => {
       ]
     },
 
-    { name: 'Employees', href: '/employees', key: 'E', icon: <FaUsers /> },
+      // 3. Vouchers Dropdown
+    { 
+      name: 'Employees', 
+      key: 'E', 
+      icon: <FaUsers />, 
+      isDropdown: true,
+      isOpen: openMenus.employees,
+      toggle: () => toggleMenu('employees'),
+      subItems: [
+        
+          { name: 'Employee List', href: '/employee-list', key: 'L', icon: <FaShoppingCart /> },
+           { name: 'Salary', href: '/salary', key: 'S', icon: <FaShoppingCart /> },
+       
+       
+       
+       
+      
+      ]
+    },
   ];
 
   return (
