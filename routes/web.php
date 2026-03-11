@@ -14,6 +14,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\EmployeeController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -121,6 +122,8 @@ Route::get('/ledger-reports', [LedgerController::class,'ledgerReports'])
 
 Route::get('/ledger-reports/{id}', [LedgerController::class,'ledgerReportView'])
 ->name('ledger.report.view');
+
+Route::resource('employees',EmployeeController::class);
 
     });
 });

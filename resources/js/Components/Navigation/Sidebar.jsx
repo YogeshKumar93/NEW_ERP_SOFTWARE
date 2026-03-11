@@ -12,6 +12,7 @@ export default function Sidebar() {
     masters: false,
     vouchers: false,
     reports: false,
+    employees: false,
   });
 
   // Sidebar logic snippet
@@ -110,7 +111,10 @@ useEffect(() => {
       toggle: () => toggleMenu('employees'),
       subItems: [
         
-          { name: 'Employee List', href: '/employee-list', key: 'L', icon: <FaShoppingCart /> },
+          { name: 'Employee List', href: '/employees', key: 'L', icon: <FaShoppingCart /> },
+           { name: 'Attendance', href: '/attendance', key: 'A', icon: <FaShoppingCart /> },
+           { name: 'Advance', href: '/advance', key: 'D', icon: <FaShoppingCart /> },
+           { name: 'Payslip', href: '/payslips', key: 'P', icon: <FaShoppingCart /> },
            { name: 'Salary', href: '/salary', key: 'S', icon: <FaShoppingCart /> },
        
        
