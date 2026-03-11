@@ -20,6 +20,7 @@ export default function Advance({ employees, advances }) {
 
     function submit(e) {
         e.preventDefault();
+         console.log("Form Submitted"); 
         post("/advance", {
             onSuccess: () => {
                 reset();
@@ -51,7 +52,7 @@ export default function Advance({ employees, advances }) {
     return (
         <AppLayout title="Employee Advance Voucher">
             <div className="flex flex-col h-screen bg-[#f4f4f4] font-mono overflow-hidden">
-                
+
                 {/* Tally Top Bar */}
                 <div className="bg-[#004a4d] text-[#e0f2f1] text-[10px] p-1 flex justify-between px-4 shadow-md uppercase tracking-wider shrink-0">
                     <span>Biggbrains 4.0 | Gateway of ERP {'>'} Transactions {'>'} Employee Advance</span>
@@ -61,14 +62,14 @@ export default function Advance({ employees, advances }) {
                 </div>
 
                 <div className="flex-1 flex p-4 gap-4 overflow-hidden">
-                    
+
                     {/* LEFT: Advance Creation Form (ERP Style) */}
                     <div className="w-[450px] shrink-0">
                         <div className="bg-[#e3f2fd] border border-blue-300 h-full flex flex-col shadow-sm">
                             <div className="bg-[#004a4d] text-white text-[11px] p-2 font-bold uppercase tracking-widest">
                                 Advance Request Entry
                             </div>
-                            
+
                             <form onSubmit={submit} className="p-4 flex-1 space-y-4 text-[11px]">
                                 <div className="space-y-3">
                                     <div className="flex items-center">
@@ -77,7 +78,13 @@ export default function Advance({ employees, advances }) {
                                             ref={empRef}
                                             className="flex-1 border border-gray-400 px-2 py-1 focus:bg-[#fff9c4] outline-none"
                                             value={data.employee_id}
-                                            onChange={(e) => setData("employee_id", e.target.value)}
+                                            onChange={(e) => {
+                                                const id = e.target.value;
+                                                setData("employee_id", id);
+                                                if (id) {
+                                                    checkSalary(id);
+                                                }
+                                            }}
                                             onKeyDown={(e) => handleKeyDown(e, amountRef)}
                                             required
                                         >
@@ -159,8 +166,8 @@ export default function Advance({ employees, advances }) {
                                 </thead>
                                 <tbody>
                                     {advances.map((adv, index) => (
-                                        <tr 
-                                            key={adv.id} 
+                                        <tr
+                                            key={adv.id}
                                             className={`hover:bg-[#fff9c4] cursor-pointer ${activeIndex === index ? 'bg-[#fff9c4]' : ''}`}
                                             onClick={() => setActiveIndex(index)}
                                         >
