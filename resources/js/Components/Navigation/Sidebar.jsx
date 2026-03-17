@@ -40,11 +40,11 @@ useEffect(() => {
     setOpenMenus(prev => ({ ...prev, [menu]: !prev[menu] }));
   };
 
-  const menuItems = [
+const menuItems = [
     { name: 'Gateway', route: 'gateway', key: 'G', icon: <FaHome /> },
-    { name: 'Dashboard', route: 'user.dashboard', key: 'D', icon: <FaHome /> },
-    { name: 'Companies', href: '/companies', key: 'C', icon: <FaHome /> },
-    { name: 'GST Details', href: '/gst-details', key: 'T', icon: <FaHome /> },
+    { name: 'Dashboard', route: 'user.dashboard', key: 'D', icon: <FaChartLine /> },
+    { name: 'Companies', href: '/companies', key: 'C', icon: <FaLayerGroup /> },
+    { name: 'GST Details', href: '/gst-details', key: 'T', icon: <FaFileInvoiceDollar /> },
     
     // 2. Masters Dropdown
     { 
@@ -56,10 +56,10 @@ useEffect(() => {
       toggle: () => toggleMenu('masters'),
       subItems: [
         { name: 'Groups', href: '/groups', key: 'G', icon: <FaLayerGroup /> },      
-        { name: 'Units', href: '/units', key: 'U', icon: <FaLayerGroup /> },
-        { name: 'Stock Categories', href: '/stock-categories', key: 'C', icon: <FaBoxes /> },
+        { name: 'Units', href: '/units', key: 'U', icon: <FaBoxes /> },
+        { name: 'Stock Categories', href: '/stock-categories', key: 'C', icon: <FaClipboardList /> },
         { name: 'Stock Items', href: '/stock-items', key: 'I', icon: <FaBoxes /> },
-          { name: 'Ledgers', href: '/ledgers', key: 'L', icon: <FaBook /> },
+        { name: 'Ledgers', href: '/ledgers', key: 'L', icon: <FaBook /> },
       ]
     },
 
@@ -72,15 +72,10 @@ useEffect(() => {
       isOpen: openMenus.vouchers,
       toggle: () => toggleMenu('vouchers'),
       subItems: [
-        
-          { name: 'Journal Voucher', href: '/journal-voucher', key: 'P', icon: <FaShoppingCart /> },
-           { name: 'Sales Voucher', href: '/sales', key: 'A', icon: <FaShoppingCart /> },
-       
+        { name: 'Journal Voucher', href: '/journal-voucher', key: 'P', icon: <FaBook /> },
+        { name: 'Sales Voucher', href: '/sales', key: 'A', icon: <FaShoppingCart /> },
         { name: 'Payment Voucher', href: '/payments', key: 'Y', icon: <FaFileInvoiceDollar /> },
-        { name: 'Receipt Voucher', href: '/receipts', key: 'R', icon: <FaFileInvoiceDollar /> },
-        //  { name: 'Journal Voucher', href: '/vouchers/journal', key: 'J', icon: <FaBook /> },
-       
-      
+        { name: 'Receipt Voucher', href: '/receipts', key: 'R', icon: <FaClipboardList /> },
       ]
     },
 
@@ -95,13 +90,13 @@ useEffect(() => {
       subItems: [
         { name: 'Trial Balance', href: '/reports/trial-balance', key: 'T', icon: <FaChartLine />, isComingSoon: true },
         { name: 'Ledger Report', href: '/ledger-reports', key: 'E', icon: <FaBook /> },
-        { name: 'P&L', href: '/reports/pl', key: 'N', icon: <FaChartLine />, isComingSoon: true },
-        { name: 'Balance Sheet', href: '/reports/balance-sheet', key: 'B', icon: <FaChartLine />, isComingSoon: true },
+        { name: 'P&L', href: '/reports/pl', key: 'N', icon: <FaFileInvoiceDollar />, isComingSoon: true },
+        { name: 'Balance Sheet', href: '/reports/balance-sheet', key: 'B', icon: <FaLayerGroup />, isComingSoon: true },
         { name: 'Stock Summary', href: '/reports/stock-summary', key: 'K', icon: <FaBoxes />, isComingSoon: true },
       ]
     },
 
-      // 3. Vouchers Dropdown
+    // 5. Employees Dropdown
     { 
       name: 'Employees', 
       key: 'E', 
@@ -110,17 +105,11 @@ useEffect(() => {
       isOpen: openMenus.employees,
       toggle: () => toggleMenu('employees'),
       subItems: [
-        
-          { name: 'Employee List', href: '/employees', key: 'L', icon: <FaShoppingCart /> },
-           { name: 'Attendance', href: '/attendance', key: 'A', icon: <FaShoppingCart /> },
-           { name: 'Advance', href: '/advance', key: 'D', icon: <FaShoppingCart /> },
-           { name: 'Payslip', href: '/payslips', key: 'P', icon: <FaShoppingCart />, isComingSoon: true },
-           { name: 'Salary', href: '/salary', key: 'S', icon: <FaShoppingCart />, isComingSoon: true },
-       
-       
-       
-       
-      
+        { name: 'Employee List', href: '/employees', key: 'L', icon: <FaUsers /> },
+        { name: 'Attendance', href: '/attendance', key: 'A', icon: <FaClipboardList /> },
+        { name: 'Advance', href: '/advance', key: 'D', icon: <FaFileInvoiceDollar /> },
+        { name: 'Payslip', href: '/payslips', key: 'P', icon: <FaBook />, isComingSoon: true },
+        { name: 'Salary', href: '/salary', key: 'S', icon: <FaChartLine />, isComingSoon: true },
       ]
     },
   ];
