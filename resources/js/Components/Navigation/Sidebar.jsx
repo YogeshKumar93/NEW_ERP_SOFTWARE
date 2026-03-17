@@ -93,11 +93,11 @@ useEffect(() => {
       isOpen: openMenus.reports,
       toggle: () => toggleMenu('reports'),
       subItems: [
-        { name: 'Trial Balance', href: '/reports/trial-balance', key: 'T', icon: <FaChartLine /> },
+        { name: 'Trial Balance', href: '/reports/trial-balance', key: 'T', icon: <FaChartLine />, isComingSoon: true },
         { name: 'Ledger Report', href: '/ledger-reports', key: 'E', icon: <FaBook /> },
-        { name: 'P&L', href: '/reports/pl', key: 'N', icon: <FaChartLine /> },
-        { name: 'Balance Sheet', href: '/reports/balance-sheet', key: 'B', icon: <FaChartLine /> },
-        { name: 'Stock Summary', href: '/reports/stock-summary', key: 'K', icon: <FaBoxes /> },
+        { name: 'P&L', href: '/reports/pl', key: 'N', icon: <FaChartLine />, isComingSoon: true },
+        { name: 'Balance Sheet', href: '/reports/balance-sheet', key: 'B', icon: <FaChartLine />, isComingSoon: true },
+        { name: 'Stock Summary', href: '/reports/stock-summary', key: 'K', icon: <FaBoxes />, isComingSoon: true },
       ]
     },
 
@@ -114,8 +114,8 @@ useEffect(() => {
           { name: 'Employee List', href: '/employees', key: 'L', icon: <FaShoppingCart /> },
            { name: 'Attendance', href: '/attendance', key: 'A', icon: <FaShoppingCart /> },
            { name: 'Advance', href: '/advance', key: 'D', icon: <FaShoppingCart /> },
-           { name: 'Payslip', href: '/payslips', key: 'P', icon: <FaShoppingCart /> },
-           { name: 'Salary', href: '/salary', key: 'S', icon: <FaShoppingCart /> },
+           { name: 'Payslip', href: '/payslips', key: 'P', icon: <FaShoppingCart />, isComingSoon: true },
+           { name: 'Salary', href: '/salary', key: 'S', icon: <FaShoppingCart />, isComingSoon: true },
        
        
        
@@ -153,14 +153,22 @@ useEffect(() => {
                 {item.isOpen && (
                   <div className="bg-slate-50">
                     {item.subItems.map((sub) => (
-                      <Link
-                        key={sub.name}
-                        href={sub.href}
-                        className="group flex items-center justify-between pl-10 pr-4 py-2 hover:bg-indigo-600 hover:text-white border-b border-slate-200 transition-colors"
-                      >
+                   <Link
+  key={sub.name}
+  href={sub.href}
+  onClick={(e) => {
+    if (sub.isComingSoon) {
+      e.preventDefault();
+      alert(`🚧 ${sub.name} coming soon!`);
+    }
+  }}
+  className="group flex items-center justify-between pl-10 pr-4 py-2 hover:bg-indigo-600 hover:text-white border-b border-slate-200 transition-colors"
+>
                         <div className="flex items-center gap-2">
                           <span className="text-indigo-600 group-hover:text-yellow-300">{sub.icon}</span>
-                          <span className="font-medium">{sub.name}</span>
+                        <span className={`font-medium ${sub.isComingSoon ? 'opacity-50' : ''}`}>
+  {sub.name}
+</span>
                         </div>
                         <span className="text-indigo-600 font-bold group-hover:text-yellow-300 underline">
                           {sub.key}
